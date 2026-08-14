@@ -75,7 +75,7 @@ export const Settings = () => {
         </p>
         <SocialIcons>
           <IconLink
-            href="https://github.com/FinnBueno/viencon-2025-schedule"
+            href="https://github.com/FinnBueno/viencon-schedule"
             target="_blank"
           >
             <FaGithub size={32} />

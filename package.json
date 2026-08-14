@@ -1,9 +1,9 @@
 {
-  "name": "viencon-2025-schedule",
+  "name": "viencon-schedule",
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://FinnBueno.github.io/viencon-2025-schedule",
+  "homepage": "https://FinnBueno.github.io/viencon-schedule",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
