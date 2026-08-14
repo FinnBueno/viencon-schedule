@@ -4,7 +4,7 @@ import { LOCATIONS } from "../locations";
 export const FRIDAY_EVENTS: Event[] = [
   {
     name: "Opening Ceremony",
-    location: LOCATIONS.HawkArena,
+    location: LOCATIONS.HawkArena.subroom.eventRooms,
     periods: [
       {
         from: friday(19),
@@ -107,7 +107,7 @@ export const FRIDAY_EVENTS: Event[] = [
   {
     name: "Matsuri / Ducky Yard Sale ",
     subtext: "Pickup/Drop off only",
-    location: LOCATIONS.HawkArena,
+    location: LOCATIONS.HawkArena.subroom.market,
     periods: [
       {
         from: friday(16),

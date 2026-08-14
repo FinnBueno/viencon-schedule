@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { EVENTS } from "../data/events";
+import { EVENTS, shouldBeLoweredOnSchedule } from "../data/events";
 import styled from "@emotion/styled";
 
 const EventBlock = styled.div<{
@@ -7,6 +7,7 @@ const EventBlock = styled.div<{
   to: string;
   rowId: string;
   isNegative: boolean;
+  isLowered: boolean;
 }>`
   grid-column: ${(props) => `${props.from}-start / ${props.to}-start`};
   grid-row: ${(props) => `${props.rowId}-start / ${props.rowId}-end`};
@@ -26,6 +27,14 @@ const EventBlock = styled.div<{
   padding: 8px;
 
   color: ${(props) => props.theme.color.font.onForeground};
+
+  ${(props) =>
+    props.isLowered
+      ? `
+    height: auto;
+    margin-top: 32px;
+  `
+      : ""}
 `;
 
 const EventText = styled.span`
@@ -47,6 +56,11 @@ export const Events: FC<unknown> = () => (
             to={toStamp}
             rowId={event.location.id}
             isNegative={event.isNegative ?? false}
+            isLowered={shouldBeLoweredOnSchedule(
+              fromStamp,
+              event.location.id,
+              event.name,
+            )}
           >
             <EventText>
               {event.subtext ? (

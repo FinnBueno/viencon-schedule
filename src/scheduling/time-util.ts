@@ -1,7 +1,7 @@
 import { DAYS } from "../data/events/timestamps";
 import type { Days, Quarter } from "../data/events/timestamps";
 
-const amountOfSegments = (8 + 24 + 23) * 4 + 1;
+const amountOfSegments = (8 + 24 + 23) * 4 + 17;
 const startHours = 12;
 
 export const getAllTimestampSegments = () => {

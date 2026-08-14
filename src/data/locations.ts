@@ -38,15 +38,22 @@ export const LOCATIONS = {
     name: "Sharkhouse",
     emoji: "🦈 🏠",
   },
-  MainstageField: {
-    id: "MainstageField",
-    name: "Field next to Mainstage",
-    emoji: "🎤 🌳",
-  },
   HawkArena: {
     id: "HawkArena",
     name: "Hawk Arena",
-    emoji: "🦅 🏟️",
+    emoji: "🦅 ",
+    subroom: {
+      market: {
+        id: "market",
+        emoji: "🛍️",
+        name: "Market"
+      },
+      eventRooms: {
+        id: "eventRooms",
+        emoji: "🏟️",
+        name: "Events"
+      }
+    }
   },
   Pool: {
     id: "Pool",

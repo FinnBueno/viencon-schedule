@@ -1,143 +1,38 @@
 import { LOCATIONS } from "../locations";
 import { sunday, type Event } from "./timestamps";
 
-export const SUNDAY_EVENTS: Event[] = [];
-
-/*
 export const SUNDAY_EVENTS: Event[] = [
+  // All-day events
   {
-    name: "Cosplay Catwalk",
-    location: LOCATIONS.Mainstage.subroom.roomOne,
-    periods: [
-      {
-        from: sunday(12, 30),
-        to: sunday(13, 30),
-      },
-    ],
-  },
-  {
-    name: "Cosplay Lipsync",
-    location: LOCATIONS.Mainstage.subroom.roomOne,
-    periods: [
-      {
-        from: sunday(15, 0),
-        to: sunday(16, 0),
-      },
-    ],
-  },
-  {
-    name: "Mead Tasting",
-    location: LOCATIONS.Mainstage.subroom.roomTwo,
-    periods: [
-      {
-        from: sunday(13, 30),
-        to: sunday(15, 0),
-      },
-    ],
-  },
-  {
-    name: "Ending Ceremony",
-    location: LOCATIONS.Mainstage,
-    periods: [
-      {
-        from: sunday(17, 0),
-        to: sunday(18, 0),
-      },
-    ],
-  },
-  {
-    name: "Asgard Sings",
-    subtext: "Anime Music Quiz",
-    location: LOCATIONS.GameroomKaraoke.subroom.karaoke,
-    periods: [
-      {
-        from: sunday(15, 0),
-        to: sunday(16, 0),
-      },
-    ],
-  },
-  {
-    name: "Bounty Hunter",
-    subtext: "Hand in",
-    location: LOCATIONS.SharkHouse,
-    periods: [
-      {
-        from: sunday(12, 0),
-        to: sunday(16, 30),
-      },
-    ],
-  },
-  {
-    name: "Fabric Market",
-    location: LOCATIONS.MainstageField,
-    periods: [
-      {
-        from: sunday(13, 0),
-        to: sunday(15, 0),
-      },
-    ],
-  },
-  {
-    name: "Beer Tasting",
-    location: LOCATIONS.MainstageField,
-    periods: [
-      {
-        from: sunday(15, 30),
-        to: sunday(16, 45),
-      },
-    ],
-  },
-  {
-    name: "Dodgeball",
-    location: LOCATIONS.HawkArena.subroom.gym,
-    periods: [
-      {
-        from: sunday(14, 30),
-        to: sunday(16, 30),
-      },
-    ],
-  },
-  {
-    name: "D&D Oneshot",
-    location: LOCATIONS.HawkArena.subroom.squash,
-    periods: [
-      {
-        from: sunday(12, 0),
-        to: sunday(14, 0),
-      },
-    ],
-  },
-  // all day events
-  {
-    name: "Artist Alley / Matsuri & Ducky Yard Sale",
-    subtext: "16:00",
-    location: LOCATIONS.SharkHouse,
+    name: "Artist Alley / Matsuri",
+    location: LOCATIONS.HawkArena.subroom.market,
     periods: [
       {
         from: sunday(12),
-        to: sunday(18),
-      },
-    ],
+        to: sunday(18)
+      }
+    ]
   },
   {
-    name: "Obstacle Run",
-    location: LOCATIONS.HawkArena,
+    name: "Ducky Yard Sale",
+    location: LOCATIONS.HawkArena.subroom.market,
     periods: [
       {
         from: sunday(12),
-        to: sunday(16, 30),
-      },
-    ],
+        to: sunday(16)
+      }
+    ]
   },
   {
-    name: "Photoshoots only",
+    name: "Pool open",
+    subtext: "Pohotoshoots only",
     location: LOCATIONS.Pool,
     periods: [
       {
         from: sunday(9),
-        to: sunday(12),
-      },
-    ],
+        to: sunday(12)
+      }
+    ]
   },
   {
     name: "Pool open",
@@ -145,19 +40,126 @@ export const SUNDAY_EVENTS: Event[] = [
     periods: [
       {
         from: sunday(12),
+        to: sunday(18),
+      },
+      {
+        from: sunday(20),
         to: sunday(23),
+      }
+    ],
+  },
+  {
+    name: "Pool closed",
+    subtext: "Cleaning",
+    location: LOCATIONS.Pool,
+    isNegative: true,
+    periods: [
+      {
+        from: sunday(18),
+        to: sunday(20),
       },
     ],
+  },
+  {
+    name: "Gameroom / Karaoke",
+    location: LOCATIONS.GameroomKaraoke,
+    periods: [
+      {
+        from: sunday(12),
+        to: sunday(18)
+      }
+    ]
+  },
+  {
+    name: "Vtuber Mascots 101",
+    location: LOCATIONS.Mainstage.subroom.roomOne,
+    periods: [
+      {
+        from: sunday(12, 30),
+        to: sunday(14, 30)
+      }
+    ]
+  },
+  {
+    name: "House Games",
+    location: LOCATIONS.HawkArena.subroom.eventRooms,
+    periods: [
+      {
+        from: sunday(12, 30),
+        to: sunday(14)
+      }
+    ]
+  },
+  {
+    name: "Dodgeball",
+    location: LOCATIONS.HawkArena.subroom.eventRooms,
+    periods: [
+      {
+        from: sunday(14),
+        to: sunday(16)
+      }
+    ]
+  },
+  {
+    name: "Ending Ceremony",
+    location: LOCATIONS.HawkArena.subroom.eventRooms,
+    periods: [
+      {
+        from: sunday(17),
+        to: sunday(18)
+      }
+    ]
+  },
+  {
+    name: "Asgard Sings",
+    subtext: "Anime Music Quiz",
+    location: LOCATIONS.GameroomKaraoke,
+    periods: [
+      {
+        from: sunday(14),
+        to: sunday(15)
+      }
+    ]
+  },
+  {
+    name: "Fuji no En",
+    subtext: "Maid & Butler cafe",
+    location: LOCATIONS.SharkHouse,
+    periods: [
+      {
+        from: sunday(12),
+        to: sunday(16)
+      }
+    ]
+  },
+  {
+    name: "Fabric Market",
+    location: LOCATIONS.DuckyFallsTent,
+    periods: [
+      {
+        from: sunday(12, 30),
+        to: sunday(14, 30)
+      }
+    ]
+  },
+  {
+    name: "Beer Tasting",
+    location: LOCATIONS.DuckyFallsTent,
+    periods: [
+      {
+        from: sunday(15),
+        to: sunday(16, 30)
+      }
+    ]
   },
   {
     name: "Aqua Para Workshop",
     location: LOCATIONS.Pool,
     periods: [
       {
-        from: sunday(12, 0),
-        to: sunday(12, 45),
-      },
-    ],
+        from: sunday(12, 30),
+        to: sunday(13, 15)
+      }
+    ]
   },
 ];
-*/
