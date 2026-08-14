@@ -25,7 +25,7 @@ const segmentSpace = "80px";
  * @returns The CSS value for 'grid-template-columns' for the schedule grid
  */
 const getColumnTemplate = () => {
-  let columnTemplate = "[start-header] 164px [end-header ";
+  let columnTemplate = "[start-header] 148px [end-header ";
   const allSegments = getAllTimestampSegments();
   for (const { day, hours, quarters, index } of allSegments) {
     const stamp = `${day}-${hours}-${quarters}`;
@@ -115,4 +115,4 @@ const GridBordersOnRow: FC<{ rowId: string }> = ({ rowId }) => (
       return <GridBorder key={stamp} stamp={stamp} rowId={rowId} />;
     })}
   </>
-)
+);
