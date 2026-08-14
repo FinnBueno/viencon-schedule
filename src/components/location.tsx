@@ -29,6 +29,12 @@ const LargeLocationRow = styled.div<{ roomId: string; hide: boolean }>`
   }
 
   height: 100%;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  z-index: 2;
 `;
 
 const SmallLocationRow = styled(LargeLocationRow)`
@@ -37,13 +43,15 @@ const SmallLocationRow = styled(LargeLocationRow)`
   align-items: center;
   height: 100%;
   pointer-events: none;
+
+  z-index: 2;
 `;
 
 const LocationRowContent = styled.p`
   padding: 4px 0;
 `;
 
-const SHRINK_THRESHOLD = 140;
+const SHRINK_THRESHOLD = 75;
 
 export const LocationRow: FC<{ scrollPosition: number; loc: Location }> = ({
   scrollPosition,

@@ -1,20 +1,26 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState, type RefObject } from "react";
 
-export const useHorizontalSrollPosition = () => {
+export const useHorizontalSrollPosition = (ref: RefObject<HTMLElement | null>) => {
   const [scrollPosition, setScrollPosition] = useState(0);
 
-  const handleScroll = () => {
-    const position = window.pageXOffset;
+  const handleScroll = useCallback(() => {
+    if (!ref || !ref.current) return;
+  
+    const position = ref.current.scrollLeft;
     setScrollPosition(position);
-  };
+  }, [ref]);
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    if (!ref || !ref.current) return;
+
+    const current = ref.current;
+
+    current.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
-      window.removeEventListener("scroll", handleScroll);
+      current.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [ref, handleScroll]);
 
   return scrollPosition;
 };

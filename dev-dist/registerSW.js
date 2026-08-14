@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) navigator.serviceWorker.register('/viencon-schedule/dev-sw.js?dev-sw', { scope: '/viencon-schedule/', type: 'classic' })

@@ -2,6 +2,64 @@ import { LOCATIONS } from "../locations";
 import { saturday, sunday, type Event } from "./timestamps";
 
 export const SATURDAY_EVENTS: Event[] = [
+  // All-day events
+  {
+    name: "Artist Alley / Matsuri / Ducky Yard Sale",
+    location: LOCATIONS.HawkArena.subroom.market,
+    periods: [
+      {
+        from: saturday(12),
+        to: saturday(18)
+      }
+    ]
+  },
+  {
+    name: "Pool open",
+    subtext: "Pohotoshoots only",
+    location: LOCATIONS.Pool,
+    periods: [
+      {
+        from: saturday(9),
+        to: saturday(12)
+      }
+    ]
+  },
+  {
+    name: "Pool open",
+    location: LOCATIONS.Pool,
+    periods: [
+      {
+        from: saturday(12),
+        to: saturday(18),
+      },
+      {
+        from: saturday(20),
+        to: saturday(23),
+      }
+    ],
+  },
+  {
+    name: "Pool closed",
+    subtext: "Cleaning",
+    location: LOCATIONS.Pool,
+    isNegative: true,
+    periods: [
+      {
+        from: saturday(18),
+        to: saturday(20),
+      },
+    ],
+  },
+  {
+    name: "Gameroom / Karaoke",
+    location: LOCATIONS.GameroomKaraoke,
+    periods: [
+      {
+        from: saturday(12),
+        to: sunday(3)
+      }
+    ]
+  },
   {
     name: "Low Budget Cosplay",
     location: LOCATIONS.Mainstage.subroom.roomOne,
@@ -165,62 +223,4 @@ export const SATURDAY_EVENTS: Event[] = [
       }
     ]
   },
-  // All-day events
-  {
-    name: "Artist Alley / Matsuri / Ducky Yard Sale",
-    location: LOCATIONS.HawkArena.subroom.market,
-    periods: [
-      {
-        from: saturday(12),
-        to: saturday(18)
-      }
-    ]
-  },
-  {
-    name: "Pool open",
-    subtext: "Pohotoshoots only",
-    location: LOCATIONS.Pool,
-    periods: [
-      {
-        from: saturday(9),
-        to: saturday(12)
-      }
-    ]
-  },
-  {
-    name: "Pool open",
-    location: LOCATIONS.Pool,
-    periods: [
-      {
-        from: saturday(12),
-        to: saturday(18),
-      },
-      {
-        from: saturday(20),
-        to: saturday(23),
-      }
-    ],
-  },
-  {
-    name: "Pool closed",
-    subtext: "Cleaning",
-    location: LOCATIONS.Pool,
-    isNegative: true,
-    periods: [
-      {
-        from: saturday(18),
-        to: saturday(20),
-      },
-    ],
-  },
-  {
-    name: "Gameroom / Karaoke",
-    location: LOCATIONS.GameroomKaraoke,
-    periods: [
-      {
-        from: saturday(12),
-        to: sunday(3)
-      }
-    ]
-  }
 ];

@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Fragment, type FC, type ReactNode } from "react";
+import { Fragment, useRef, type FC, type ReactNode } from "react";
 import { ALL_LOCATIONS } from "../data/locations";
 import {
   getAllTimestampSegments,
@@ -81,7 +81,9 @@ const Grid = styled.div`
   grid-template-columns: ${getColumnTemplate()};
   grid-template-rows: ${getRowTemplate()};
   row-gap: 8px;
-  margin-top: 4px;
+  overflow-x: scroll;
+  overflow-y: hidden;
+  width: 100vw;
 `;
 
 const GridBorder = styled.div<{ stamp: string; rowId: string }>`
@@ -94,9 +96,10 @@ const GridBorder = styled.div<{ stamp: string; rowId: string }>`
 `;
 
 export const ScheduleGrid: FC<{ children: ReactNode }> = ({ children }) => {
-  const scrollPosition = useHorizontalSrollPosition();
+  const gridRef = useRef<HTMLDivElement>(null);
+  const scrollPosition = useHorizontalSrollPosition(gridRef);
   return (
-    <Grid>
+    <Grid ref={gridRef}>
       {getAllLocationOptions().map((loc) => (
         <Fragment key={loc.id}>
           <GridBordersOnRow rowId={loc.id} />

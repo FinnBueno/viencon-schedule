@@ -1,5 +1,9 @@
 import type { FC } from "react";
-import { EVENTS, shouldBeLoweredOnSchedule } from "../data/events";
+import {
+  EVENTS,
+  findNextTimestampOnSameRow,
+  shouldBeLoweredOnSchedule,
+} from "../data/events";
 import styled from "@emotion/styled";
 
 const EventBlock = styled.div<{
@@ -24,7 +28,8 @@ const EventBlock = styled.div<{
   `}
   border-radius: 8px;
 
-  padding: 8px;
+  /* padding: 8px; */
+  overflow: hidden;
 
   color: ${(props) => props.theme.color.font.onForeground};
 
@@ -35,6 +40,39 @@ const EventBlock = styled.div<{
     margin-top: 32px;
   `
       : ""}
+
+  display: grid;
+  grid-template-columns: subgrid;
+  grid-template-rows: subgrid;
+
+  &::after {
+    background-color: none;
+    transition: background-color 150ms;
+    content: "";
+    grid-column: ${(props) => `${props.from}-start / ${props.to}-start`};
+    grid-row: ${(props) => `${props.rowId}-start / ${props.rowId}-end`};
+  }
+
+  &:hover {
+    &::after {
+      background-color: ${(props) => props.theme.color.eventBlockHighlighted};
+    }
+  }
+`;
+
+const EventContent = styled.div<{
+  from: string;
+  to: string;
+  rowId: string;
+}>`
+  display: block;
+
+  padding: 8px;
+
+  grid-column: ${(props) => `${props.from}-start / ${props.to}-start`};
+  grid-row: ${(props) => `${props.rowId}-start / ${props.rowId}-end`};
+
+  z-index: 1;
 `;
 
 const EventText = styled.span`
@@ -43,12 +81,29 @@ const EventText = styled.span`
   border-radius: 4px;
 `;
 
+const TimespanLabel = styled.span`
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 80%;
+`;
+
 export const Events: FC<unknown> = () => (
   <>
     {EVENTS.map((event) => {
-      return event.periods.map(({ from, to }) => {
+      return event.periods.map((timespan) => {
+        const { from, to } = timespan;
         const fromStamp = `${from.day}-${from.hours}-${from.minutes}`;
         const toStamp = `${to.day}-${to.hours}-${to.minutes}`;
+        const nextTimestamp = findNextTimestampOnSameRow(
+          timespan.from,
+          event.location,
+          event.name === "Pool open" &&
+            timespan.from.day === "SUNDAY" &&
+            timespan.from.hours === 12 &&
+            timespan.from.minutes === 0,
+        );
+        const nextFrom = nextTimestamp
+          ? `${nextTimestamp.day}-${nextTimestamp.hours}-${nextTimestamp.minutes}`
+          : undefined;
         return (
           <EventBlock
             key={event.name + fromStamp + toStamp}
@@ -62,15 +117,32 @@ export const Events: FC<unknown> = () => (
               event.name,
             )}
           >
-            <EventText>
-              {event.subtext ? (
-                <>
-                  <b>{event.name}</b> <span>({event.subtext})</span>
-                </>
-              ) : (
-                <b>{event.name}</b>
-              )}
-            </EventText>
+            <EventContent
+              from={fromStamp}
+              to={nextFrom ?? "undefined"}
+              rowId={event.location.id}
+            >
+              <EventText>
+                {event.subtext ? (
+                  <>
+                    <b>{event.name}</b>&nbsp;<span>({event.subtext})</span>
+                    &nbsp;
+                    <TimespanLabel>
+                      {from.hours}:{from.minutes || "00"} - {to.hours}:
+                      {to.minutes || "00"}
+                    </TimespanLabel>
+                  </>
+                ) : (
+                  <>
+                    <b>{event.name}</b>&nbsp;
+                    <TimespanLabel>
+                      {from.hours}:{from.minutes || "00"} - {to.hours}:
+                      {to.minutes || "00"}
+                    </TimespanLabel>
+                  </>
+                )}
+              </EventText>
+            </EventContent>
           </EventBlock>
         );
       });
