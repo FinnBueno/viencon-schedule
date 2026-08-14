@@ -1,6 +1,9 @@
 import { LOCATIONS } from "../locations";
 import { saturday, sunday, type Event } from "./timestamps";
 
+export const SATURDAY_EVENTS: Event[] = [];
+
+/*
 export const SATURDAY_EVENTS: Event[] = [
   {
     name: "Sherry's Inspiration Tour",
@@ -268,3 +271,4 @@ export const SATURDAY_EVENTS: Event[] = [
     ],
   },
 ];
+*/

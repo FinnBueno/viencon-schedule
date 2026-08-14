@@ -40,5 +40,6 @@ export type Event = {
   subtext?: string;
   link?: string;
   location: Location;
+  isNegative?: boolean;
   periods: Timespan[];
 };

@@ -30,20 +30,8 @@ export const LOCATIONS = {
   },
   GameroomKaraoke: {
     id: "GameroomKaraoke",
-    name: "",
-    emoji: "",
-    subroom: {
-      gameroom: {
-        id: "gameroom",
-        emoji: "🕹️ 🎮",
-        name: "Gameroom",
-      },
-      karaoke: {
-        id: "karaoke",
-        emoji: "🎙️ 🎶",
-        name: "Karaoke",
-      },
-    },
+    name: "Gameroom / Karaoke",
+    emoji: "🎙️ 🎮",
   },
   SharkHouse: {
     id: "SharkHouse",
@@ -58,24 +46,17 @@ export const LOCATIONS = {
   HawkArena: {
     id: "HawkArena",
     name: "Hawk Arena",
-    emoji: "🦅",
-    subroom: {
-      gym: {
-        id: "gym",
-        name: "(Gym Hall)",
-        emoji: "🏋🏻‍♀️",
-      },
-      squash: {
-        id: "squash",
-        name: "(Squash Hall)",
-        emoji: "🎾",
-      },
-    },
+    emoji: "🦅 🏟️",
   },
   Pool: {
     id: "Pool",
     name: "Pool",
     emoji: "🏊🏻‍♀️ 🌊",
+  },
+  DuckyFallsTent: {
+    id: "DuckyFallsTent",
+    emoji: "🦆 🎪",
+    name: "Ducky Falls Tent",
   },
 };
 

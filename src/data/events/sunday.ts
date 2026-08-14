@@ -1,6 +1,9 @@
 import { LOCATIONS } from "../locations";
 import { sunday, type Event } from "./timestamps";
 
+export const SUNDAY_EVENTS: Event[] = [];
+
+/*
 export const SUNDAY_EVENTS: Event[] = [
   {
     name: "Cosplay Catwalk",
@@ -157,3 +160,4 @@ export const SUNDAY_EVENTS: Event[] = [
     ],
   },
 ];
+*/
