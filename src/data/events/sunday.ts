@@ -6,6 +6,7 @@ export const SUNDAY_EVENTS: EventWithoutIds[] = [
   {
     name: "Artist Alley / Matsuri",
     location: LOCATIONS.HawkArena.subroom.market,
+    link: 'https://viencon.nl/ducky-yard-sale',
     periods: [
       {
         from: sunday(12),
@@ -83,6 +84,7 @@ export const SUNDAY_EVENTS: EventWithoutIds[] = [
   {
     name: "House Games",
     location: LOCATIONS.HawkArena.subroom.eventRooms,
+    link: 'https://viencon.nl/house-games',
     periods: [
       {
         from: sunday(12, 30),
@@ -93,6 +95,7 @@ export const SUNDAY_EVENTS: EventWithoutIds[] = [
   {
     name: "Dodgeball",
     location: LOCATIONS.HawkArena.subroom.eventRooms,
+    link: 'https://viencon.nl/dodgeball',
     periods: [
       {
         from: sunday(14),
@@ -114,6 +117,7 @@ export const SUNDAY_EVENTS: EventWithoutIds[] = [
     name: "Asgard Sings",
     subtext: "Anime Music Quiz",
     location: LOCATIONS.GameroomKaraoke,
+    link: 'https://viencon.nl/asgardsings',
     periods: [
       {
         from: sunday(14),
@@ -124,6 +128,7 @@ export const SUNDAY_EVENTS: EventWithoutIds[] = [
   {
     name: "Fuji no En",
     subtext: "Maid & Butler cafe",
+    link: 'https://viencon.nl/fuji-no-en',
     location: LOCATIONS.SharkHouse,
     periods: [
       {
@@ -135,6 +140,7 @@ export const SUNDAY_EVENTS: EventWithoutIds[] = [
   {
     name: "Fabric Market",
     location: LOCATIONS.DuckyFallsTent,
+    link: 'https://viencon.nl/fabric-market',
     periods: [
       {
         from: sunday(12, 30),
@@ -145,6 +151,7 @@ export const SUNDAY_EVENTS: EventWithoutIds[] = [
   {
     name: "Beer Tasting",
     location: LOCATIONS.DuckyFallsTent,
+    link: 'https://viencon.nl/beer-tasting',
     periods: [
       {
         from: sunday(15),
@@ -155,6 +162,7 @@ export const SUNDAY_EVENTS: EventWithoutIds[] = [
   {
     name: "Aqua Para",
     location: LOCATIONS.Pool,
+    link: 'https://viencon.nl/aquapara',
     periods: [
       {
         from: sunday(12, 30),

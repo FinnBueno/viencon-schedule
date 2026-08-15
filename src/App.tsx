@@ -10,6 +10,7 @@ import {
 } from './hooks/use-viencon-theme';
 import { SearchMenu } from './components/search';
 import { SearchProvider } from './context/SearchContext';
+import { ModalProvider } from './context/ModalContext';
 
 const getGlobalStyle = (theme: Theme) => css`
   html,
@@ -42,12 +43,14 @@ function AppWithTheme() {
   return (
     <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
       <SearchProvider>
-        <Global styles={(theme) => getGlobalStyle(theme)} />
-        <SearchMenu />
-        <ScheduleGrid>
-          <TableHeaders />
-          <Events />
-        </ScheduleGrid>
+        <ModalProvider>
+          <Global styles={(theme) => getGlobalStyle(theme)} />
+          <SearchMenu />
+          <ScheduleGrid>
+            <TableHeaders />
+            <Events />
+          </ScheduleGrid>
+        </ModalProvider>
       </SearchProvider>
     </ThemeProvider>
   );

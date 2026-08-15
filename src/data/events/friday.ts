@@ -6,6 +6,7 @@ export const FRIDAY_EVENTS: EventWithoutIds[] = [
   {
     name: "Matsuri / Ducky Yard Sale ",
     subtext: "Pickup/Drop off only",
+    link: 'https://viencon.nl/ducky-yard-sale',
     location: LOCATIONS.HawkArena.subroom.market,
     periods: [
       {
@@ -43,6 +44,7 @@ export const FRIDAY_EVENTS: EventWithoutIds[] = [
   {
     name: "Gameroom / Karaoke",
     location: LOCATIONS.GameroomKaraoke,
+    link: 'https://viencon.nl/nerdcore',
     periods: [
       {
         from: friday(16),
@@ -83,6 +85,7 @@ export const FRIDAY_EVENTS: EventWithoutIds[] = [
   {
     name: "Festival Lantern Workshop",
     location: LOCATIONS.Mainstage.subroom.roomTwo,
+    link: 'https://viencon.nl/lantern-making',
     periods: [
       {
         from: friday(20),
@@ -93,6 +96,7 @@ export const FRIDAY_EVENTS: EventWithoutIds[] = [
   {
     name: "Fuji no En",
     subtext: "Maid & Butler Cafe",
+    link: 'https://viencon.nl/fuji-no-en',
     location: LOCATIONS.SharkHouse,
     periods: [
       {
@@ -104,6 +108,7 @@ export const FRIDAY_EVENTS: EventWithoutIds[] = [
   {
     name: "Izakaya",
     location: LOCATIONS.SharkHouse,
+    link: 'https://viencon.nl/izakaya',
     periods: [
       {
         from: friday(22),
@@ -114,6 +119,7 @@ export const FRIDAY_EVENTS: EventWithoutIds[] = [
   {
     name: "Slide Quest",
     location: LOCATIONS.DuckyDomeStage,
+    link: 'https://viencon.nl/slide-quest',
     periods: [
       {
         from: friday(22, 30),
@@ -134,6 +140,7 @@ export const FRIDAY_EVENTS: EventWithoutIds[] = [
   {
     name: "Mead Tasting",
     location: LOCATIONS.DuckyFallsTent,
+    link: 'https://viencon.nl/mead-tasting',
     periods: [
       {
         from: friday(20),
@@ -144,6 +151,7 @@ export const FRIDAY_EVENTS: EventWithoutIds[] = [
   {
     name: "Pong Competition",
     location: LOCATIONS.GameroomKaraoke,
+    link: 'https://viencon.nl/nerdcore',
     periods: [
       {
         from: friday(20, 30),

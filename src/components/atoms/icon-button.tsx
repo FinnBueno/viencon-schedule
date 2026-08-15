@@ -5,4 +5,6 @@ export const IconButton = styled.button`
   padding: 0;
   border: none;
   background: none;
+  cursor: pointer;
+  outline: none;
 `;
