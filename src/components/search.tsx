@@ -8,7 +8,13 @@ import { IconButton } from './atoms/icon-button';
 import { BiSearch } from 'react-icons/bi';
 
 const SearchMenuContainer = styled.div`
-  height: 48px;
+  position: absolute;
+  top: 0;
+
+  background-color: ${(props) => props.theme.color.background};
+
+  z-index: 10;
+  height: 52px;
   overflow: visible;
 
   width: 100vw;
@@ -16,7 +22,7 @@ const SearchMenuContainer = styled.div`
   justify-content: center;
 
   box-sizing: border-box;
-  padding: 4px;
+  padding: 4px 4px 8px 4px;
 `;
 
 const Content = styled.div`
@@ -87,33 +93,36 @@ export const SearchMenu: FC = () => {
   };
 
   return (
-    <SearchMenuContainer>
-      <Content as="form" onSubmit={handleSubmit(() => {})}>
-        <Input
-          placeholder="Search..."
-          {...register('query', {
-            onChange: (e) => updateQuery(e.target.value),
-          })}
-        />
-        {!isSearching ? (
-          <BiSearch size={32} style={{ marginRight: '4px' }} />
-        ) : (
-          <>
-            <MdClear
-              size={32}
-              color={theme.color.font.onBackground}
-              onClick={handleClear}
-            />
-            <IconButton type="button" onClick={goBack}>
-              <MdArrowLeft size={32} color={theme.color.font.onBackground} />
-            </IconButton>
-            {totalResults === 0 ? 0 : currentIndex + 1} / {totalResults}
-            <IconButton type="button" onClick={goNext}>
-              <MdArrowRight size={32} color={theme.color.font.onBackground} />
-            </IconButton>
-          </>
-        )}
-      </Content>
-    </SearchMenuContainer>
+    <>
+      <div style={{ height: '52px' }}></div>
+      <SearchMenuContainer>
+        <Content as="form" onSubmit={handleSubmit(() => {})}>
+          <Input
+            placeholder="Search..."
+            {...register('query', {
+              onChange: (e) => updateQuery(e.target.value),
+            })}
+          />
+          {!isSearching ? (
+            <BiSearch size={32} style={{ marginRight: '4px' }} />
+          ) : (
+            <>
+              <MdClear
+                size={32}
+                color={theme.color.font.onBackground}
+                onClick={handleClear}
+              />
+              <IconButton type="button" onClick={goBack}>
+                <MdArrowLeft size={32} color={theme.color.font.onBackground} />
+              </IconButton>
+              {totalResults === 0 ? 0 : currentIndex + 1} / {totalResults}
+              <IconButton type="button" onClick={goNext}>
+                <MdArrowRight size={32} color={theme.color.font.onBackground} />
+              </IconButton>
+            </>
+          )}
+        </Content>
+      </SearchMenuContainer>
+    </>
   );
 };
