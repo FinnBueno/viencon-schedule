@@ -39,7 +39,7 @@ export const compareTimestamps = (a: Timestamp, b: Timestamp): -1 | 0 | 1 => {
   return 0;
 }
 
-const toNumericTimestamp = (a: Timestamp): number => {
+export const toNumericTimestamp = (a: Timestamp): number => {
   let value = 0;
   switch (a.day) {
     case "FRIDAY": value = 10000; break;

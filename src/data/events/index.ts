@@ -1,4 +1,4 @@
-import { compareTimestamps } from "../../scheduling/time-util";
+import { compareTimestamps, toNumericTimestamp } from "../../scheduling/time-util";
 import { assignIds } from "../../utils/id-util";
 import type { Location } from "../locations";
 import { FRIDAY_EVENTS } from "./friday";
@@ -26,8 +26,17 @@ const AMOUNT_OF_EVENTS_BY_START_TIMESTAMPS: {[key: string]: string[]} = EVENTS.r
  * event that starts at the same time. This is a limited functionality and only supports
  * showing 2 events at the same time.
  */
-export const shouldBeLoweredOnSchedule = (fromTimestamp: string, location: string, name: string): boolean => {
-  return AMOUNT_OF_EVENTS_BY_START_TIMESTAMPS[fromTimestamp + location].indexOf(name) > 0;
+export const shouldBeLoweredOnSchedule = (fromTimestamp: Timestamp, location: string): boolean => {
+  const numericStartSelf = toNumericTimestamp(fromTimestamp);
+  return !!EVENTS.find(event => {
+    if (event.location.id !== location) return false;
+
+    return !!event.periods.find(prd => {
+      const periodStart = toNumericTimestamp(prd.from);
+      const periodEnd = toNumericTimestamp(prd.to);
+      return periodStart <= numericStartSelf && numericStartSelf <= periodEnd;
+    });
+  });
 }
 
 /**
