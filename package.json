@@ -12,7 +12,8 @@
     "format:check": "prettier --check .",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "live": "git checkout live && git rebase main && git push && git checkout main"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
