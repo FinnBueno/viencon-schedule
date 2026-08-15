@@ -1,10 +1,10 @@
-import styled from "@emotion/styled";
+import styled from '@emotion/styled';
 import {
   getAllTimestampSegments,
   isVisibleTimestamp,
-} from "../scheduling/time-util";
-import { LogoImage } from "./atoms/logo";
-import { Settings } from "./settings";
+} from '../scheduling/time-util';
+import { LogoImage } from './atoms/logo';
+import { Settings } from './settings';
 
 const DayHeader = styled.h2`
   grid-row: start-timestamp / end-timestamp;
@@ -90,12 +90,12 @@ export const TableHeaders = () => {
             stamp={stamp}
             style={{
               overflow: isVisibleTimestamp(hours, quarters)
-                ? "visible"
-                : "hidden",
+                ? 'visible'
+                : 'hidden',
             }}
           >
             <p>
-              {hours}:{quarters || "00"}
+              {hours}:{quarters || '00'}
             </p>
           </TimestampDisplay>
         );

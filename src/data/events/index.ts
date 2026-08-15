@@ -28,26 +28,3 @@ export const shouldBeLoweredOnSchedule = (fromTimestamp: Timestamp, locationId: 
   }
   return false;
 }
-
-/**
- * Returns the next timespan occuring on the same exact row as the given timestamp.
- * Does not return timestamps starting at exactly the same time.
- */
-export const findNextTimestampOnSameRow = (timestamp: Timestamp, location: Location): Timestamp | undefined => {
-  const upcomingTimestamps: Timestamp[] = [];
-  for (const event of EVENTS) {
-    if (event.location.id !== location.id || (event.location.subroom ?? {})[location.id] !== undefined) continue;
-
-    const periodsAfterGivenTimestamp = event.periods.filter(prd => {
-      // -1 means timestamp is less (older) than prd.from
-      return compareTimestamps(timestamp, prd.from) === -1;
-    })
-    if (periodsAfterGivenTimestamp.length === 0) continue;
-
-    upcomingTimestamps.push(periodsAfterGivenTimestamp[0].from);
-  }
-
-  if (upcomingTimestamps.length === 0) return undefined;
-
-  return upcomingTimestamps.sort((a, b) => compareTimestamps(a, b))[0];
-}

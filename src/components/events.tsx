@@ -1,9 +1,5 @@
 import { useEffect, type FC } from 'react';
-import {
-  EVENTS,
-  findNextTimestampOnSameRow,
-  shouldBeLoweredOnSchedule,
-} from '../data/events';
+import { EVENTS, shouldBeLoweredOnSchedule } from '../data/events';
 import styled from '@emotion/styled';
 import { useSearch } from '../context/SearchContext';
 import { GRID_ID } from './grid';
@@ -31,16 +27,13 @@ const EventBlock = styled.div<{
   `}
   border-radius: 8px;
 
-  /* padding: 8px; */
-  overflow: hidden;
-
   color: ${(props) => props.theme.color.font.onForeground};
 
   ${(props) =>
     props.isLowered
       ? `
     height: auto;
-    margin-top: 32px;
+    margin-top: 38px;
   `
       : ''}
 
@@ -54,12 +47,6 @@ const EventBlock = styled.div<{
     content: '';
     grid-column: ${(props) => `${props.from}-start / ${props.to}-start`};
     grid-row: ${(props) => `${props.rowId}-start / ${props.rowId}-end`};
-  }
-
-  &:hover {
-    &::after {
-      background-color: ${(props) => props.theme.color.eventBlockHighlighted};
-    }
   }
 
   transition:
@@ -85,16 +72,22 @@ const EventContent = styled.div<{
 
   padding: 8px;
 
+  z-index: 1;
+  position: sticky;
+
   grid-column: ${(props) => `${props.from}-start / ${props.to}-start`};
   grid-row: ${(props) => `${props.rowId}-start / ${props.rowId}-end`};
-
-  z-index: 1;
 `;
 
 const EventText = styled.span`
   background-color: ${(props) => props.theme.color.eventBlock};
   padding: 2px 4px 4px 4px;
   border-radius: 4px;
+
+  position: sticky;
+  left: 72px;
+  top: 0;
+  align-self: start;
 `;
 
 const TimespanLabel = styled.span`
@@ -125,13 +118,6 @@ export const Events: FC<unknown> = () => {
           const { from, to } = timespan;
           const fromStamp = `${from.day}-${from.hours}-${from.minutes}`;
           const toStamp = `${to.day}-${to.hours}-${to.minutes}`;
-          const nextTimestamp = findNextTimestampOnSameRow(
-            timespan.from,
-            event.location,
-          );
-          const nextFrom = nextTimestamp
-            ? `${nextTimestamp.day}-${nextTimestamp.hours}-${nextTimestamp.minutes}`
-            : undefined;
           return (
             <EventBlock
               key={from.id}
@@ -149,7 +135,7 @@ export const Events: FC<unknown> = () => {
             >
               <EventContent
                 from={fromStamp}
-                to={nextFrom ?? 'undefined'}
+                to={toStamp}
                 rowId={event.location.id}
               >
                 <EventText>
