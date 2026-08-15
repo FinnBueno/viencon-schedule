@@ -67,7 +67,7 @@ export const Settings = () => {
           on{" "}
           <a
             style={{ color: themeObject.color.font.link }}
-            href="https://www.instagram.com/herecomeacosplayer/"
+            href="https://www.instagram.com/finxy_cos/"
           >
             Instagram
           </a>
@@ -80,10 +80,7 @@ export const Settings = () => {
           >
             <FaGithub size={32} />
           </IconLink>
-          <IconLink
-            href="https://instagram.com/herecomeacosplayer"
-            target="_blank"
-          >
+          <IconLink href="https://instagram.com/finxy_cos" target="_blank">
             <FaInstagram size={32} />
           </IconLink>
         </SocialIcons>
