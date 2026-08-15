@@ -23,7 +23,7 @@ export const shouldBeLoweredOnSchedule = (fromTimestamp: Timestamp, location: st
     return !!event.periods.find(prd => {
       const periodStart = toNumericTimestamp(prd.from);
       const periodEnd = toNumericTimestamp(prd.to);
-      return periodStart <= numericStartSelf && numericStartSelf <= periodEnd;
+      return periodStart <= numericStartSelf && numericStartSelf < periodEnd;
     });
   });
 }
