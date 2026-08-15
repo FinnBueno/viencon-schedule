@@ -59,7 +59,7 @@ const getRowTemplate = () => {
         if (index === 0) {
           rowTemplate += `${location.id}-start `;
         }
-        rowTemplate += `${key}-start] min-content [${key}-end`;
+        rowTemplate += `${key}-start] 84px [${key}-end`;
         if (index !== subroomKeys.length - 1) {
           rowTemplate += ' ';
         } else {
@@ -67,7 +67,7 @@ const getRowTemplate = () => {
         }
       });
     } else {
-      rowTemplate += `${location.id}-start] min-content [${location.id}-end`;
+      rowTemplate += `${location.id}-start] 84px [${location.id}-end`;
       if (index !== ALL_LOCATIONS.length - 1) {
         rowTemplate += ' ';
       }

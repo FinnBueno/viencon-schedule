@@ -143,7 +143,7 @@ export const Events: FC<unknown> = () => {
               isLowered={shouldBeLoweredOnSchedule(
                 from,
                 event.location.id,
-                event.id
+                event.id,
               )}
               showHighlight={from.id === currentResult}
             >
