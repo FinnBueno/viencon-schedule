@@ -9,18 +9,6 @@ import type { Timestamp } from "./timestamps";
 const EVENTS_WITHOUT_IDS = [...FRIDAY_EVENTS, ...SATURDAY_EVENTS, ...SUNDAY_EVENTS];
 export const EVENTS = assignIds(EVENTS_WITHOUT_IDS);
 
-const AMOUNT_OF_EVENTS_BY_START_TIMESTAMPS: {[key: string]: string[]} = EVENTS.reduce<{[key: string]: string[]}>((resultMap, currentEvent) => {
-  for (const period of currentEvent.periods) {
-    const fromTimestamp = `${period.from.day}-${period.from.hours}-${period.from.minutes}`;
-    const location = currentEvent.location;
-    if (!resultMap[fromTimestamp + location.id]) {
-      resultMap[fromTimestamp + location.id] = [];
-    }
-    resultMap[fromTimestamp + location.id].push(currentEvent.name);
-  }
-  return resultMap;
-}, {} as {[key: string]: string[]});
-
 /**
  * Returns whether a given element should be displayed at a lower point to not hide an
  * event that starts at the same time. This is a limited functionality and only supports
