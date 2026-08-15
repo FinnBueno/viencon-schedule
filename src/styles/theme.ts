@@ -8,6 +8,10 @@ export const darkTheme: Theme = {
     negativeBlock: "rgb(76, 125, 113)",
     location: "rgb(234, 174, 93)",
     background: "#314149",
+    grid: {
+      hardBorder: '#fff',
+      softBorder: '#ffffff40'
+    },
     font: {
       onBackground: "#fff",
       onForeground: "#000",
@@ -24,6 +28,10 @@ export const lightTheme: Theme = {
     negativeBlock: "rgb(65, 166, 158)",
     location: "rgb(234, 174, 93)",
     background: "#EFEFEF",
+    grid: {
+      hardBorder: '#000',
+      softBorder: '#00000040'
+    },
     font: {
       onBackground: "#000",
       onForeground: "#fff",

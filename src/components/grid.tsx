@@ -9,7 +9,7 @@ import { getAllLocationOptions } from '../scheduling/location-util';
 import { useHorizontalSrollPosition } from '../hooks/use-horizontal-scroll';
 import { LocationRow } from './location';
 
-const segmentSpace = '80px';
+const segmentSpace = '46px';
 
 /**
  * Generates the column setup for the grid.
@@ -86,8 +86,12 @@ const Grid = styled.div`
   width: 100vw;
 `;
 
-const GridBorder = styled.div<{ stamp: string; rowId: string }>`
-  border-color: ${(props) => props.theme.color.font.onBackground};
+const GridBorder = styled.div<{
+  stamp: string;
+  rowId: string;
+  isDark: boolean;
+}>`
+  border-color: ${(props) => (props.isDark ? props.theme.color.grid.softBorder : props.theme.color.grid.hardBorder)};
   border-style: solid;
   border-width: 0 0 0 1px;
   height: calc(100% + 8px);
@@ -117,7 +121,14 @@ const GridBordersOnRow: FC<{ rowId: string }> = ({ rowId }) => (
   <>
     {getAllTimestampSegments().map(({ day, hours, quarters }) => {
       const stamp = `${day}-${hours}-${quarters}`;
-      return <GridBorder key={stamp} stamp={stamp} rowId={rowId} />;
+      return (
+        <GridBorder
+          key={stamp}
+          stamp={stamp}
+          rowId={rowId}
+          isDark={quarters % 30 === 15}
+        />
+      );
     })}
   </>
 );

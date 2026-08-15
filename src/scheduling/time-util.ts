@@ -1,6 +1,7 @@
 import { DAYS } from "../data/events/timestamps";
 import type { Days, Quarter, Timestamp } from "../data/events/timestamps";
 
+const timePerSegment: 15 | 30 = 15;
 const amountOfSegments = (8 + 24 + 23) * 4 + 17;
 const startHours = 12;
 
@@ -12,9 +13,10 @@ export const getAllTimestampSegments = () => {
 };
 
 const toTimestamp = (i: number): [Days, number, Quarter] => {
-  const quarters = ((i % 4) * 15) as Quarter;
-  const hours = (startHours + Math.floor(i / 4)) % 24;
-  const day = Math.floor((startHours + Math.floor(i / 4)) / 24);
+  const segmentsPerHour = (60 / timePerSegment);
+  const quarters = ((i % segmentsPerHour) * timePerSegment) as Quarter;
+  const hours = (startHours + Math.floor(i / segmentsPerHour)) % 24;
+  const day = Math.floor((startHours + Math.floor(i / segmentsPerHour)) / 24);
   return [DAYS[day], hours, quarters];
 };
 

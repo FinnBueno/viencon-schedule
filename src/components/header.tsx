@@ -42,7 +42,7 @@ const TimestampDisplay = styled.div<{ stamp: string }>`
   top: 0;
   align-self: start;
   & > p {
-    margin: 36px 0 0 calc(-50% + 10px);
+    margin: 36px 0 0 calc(-50% - 10px);
     bottom: 0;
   }
   background-color: ${(props) => props.theme.color.background};
@@ -84,6 +84,7 @@ export const TableHeaders = () => {
       </SundayHeader>
       {getAllTimestampSegments().map(({ day, hours, quarters }) => {
         const stamp = `${day}-${hours}-${quarters}`;
+        if (quarters % 30 === 15) return null;
         return (
           <TimestampDisplay
             key={stamp}

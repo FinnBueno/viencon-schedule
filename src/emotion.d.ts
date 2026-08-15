@@ -8,6 +8,10 @@ declare module "@emotion/react" {
       negativeBlock: string;
       location: string;
       background: string;
+      grid: {
+        hardBorder: string;
+        softBorder: string;
+      }
       font: {
         onBackground: string;
         onForeground: string;

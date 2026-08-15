@@ -153,7 +153,7 @@ export const SUNDAY_EVENTS: EventWithoutIds[] = [
     ]
   },
   {
-    name: "Aqua Para Workshop",
+    name: "Aqua Para",
     location: LOCATIONS.Pool,
     periods: [
       {

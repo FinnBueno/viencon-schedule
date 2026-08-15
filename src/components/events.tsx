@@ -33,7 +33,7 @@ const EventBlock = styled.div<{
     props.isLowered
       ? `
     height: auto;
-    margin-top: 38px;
+    margin-top: 32px;
   `
       : ''}
 
@@ -81,7 +81,6 @@ const EventContent = styled.div<{
 
 const EventText = styled.span`
   background-color: ${(props) => props.theme.color.eventBlock};
-  padding: 2px 4px 4px 4px;
   border-radius: 4px;
 
   position: sticky;
@@ -139,24 +138,12 @@ export const Events: FC<unknown> = () => {
                 rowId={event.location.id}
               >
                 <EventText>
-                  {event.subtext ? (
-                    <>
-                      <b>{event.name}</b>&nbsp;<span>({event.subtext})</span>
-                      &nbsp;
-                      <TimespanLabel>
-                        {from.hours}:{from.minutes || '00'} - {to.hours}:
-                        {to.minutes || '00'}
-                      </TimespanLabel>
-                    </>
-                  ) : (
-                    <>
-                      <b>{event.name}</b>&nbsp;
-                      <TimespanLabel>
-                        {from.hours}:{from.minutes || '00'} - {to.hours}:
-                        {to.minutes || '00'}
-                      </TimespanLabel>
-                    </>
-                  )}
+                  <b>{event.name}</b>{' '}
+                  {event.subtext ? <span>({event.subtext}) </span> : null}
+                  <TimespanLabel>
+                    {from.hours}:{from.minutes || '00'} - {to.hours}:
+                    {to.minutes || '00'}
+                  </TimespanLabel>
                 </EventText>
               </EventContent>
             </EventBlock>
