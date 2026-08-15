@@ -8,7 +8,7 @@ import {
   useVienconTheme,
   VienconThemeProvider,
 } from "./hooks/use-viencon-theme";
-import { SearchMenu } from "./components/search";
+// import { SearchMenu } from "./components/search";
 
 const getGlobalStyle = (theme: Theme) => css`
   html,
