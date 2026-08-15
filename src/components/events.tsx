@@ -1,10 +1,12 @@
-import type { FC } from "react";
+import { useEffect, type FC } from 'react';
 import {
   EVENTS,
   findNextTimestampOnSameRow,
   shouldBeLoweredOnSchedule,
-} from "../data/events";
-import styled from "@emotion/styled";
+} from '../data/events';
+import styled from '@emotion/styled';
+import { useSearch } from '../context/SearchContext';
+import { GRID_ID } from './grid';
 
 const EventBlock = styled.div<{
   from: string;
@@ -12,6 +14,7 @@ const EventBlock = styled.div<{
   rowId: string;
   isNegative: boolean;
   isLowered: boolean;
+  showHighlight: boolean;
 }>`
   grid-column: ${(props) => `${props.from}-start / ${props.to}-start`};
   grid-row: ${(props) => `${props.rowId}-start / ${props.rowId}-end`};
@@ -39,7 +42,7 @@ const EventBlock = styled.div<{
     height: auto;
     margin-top: 32px;
   `
-      : ""}
+      : ''}
 
   display: grid;
   grid-template-columns: subgrid;
@@ -48,7 +51,7 @@ const EventBlock = styled.div<{
   &::after {
     background-color: none;
     transition: background-color 150ms;
-    content: "";
+    content: '';
     grid-column: ${(props) => `${props.from}-start / ${props.to}-start`};
     grid-row: ${(props) => `${props.rowId}-start / ${props.rowId}-end`};
   }
@@ -58,6 +61,19 @@ const EventBlock = styled.div<{
       background-color: ${(props) => props.theme.color.eventBlockHighlighted};
     }
   }
+
+  transition:
+    outline 150ms,
+    box-shadow 150ms;
+
+  ${(props) =>
+    props.showHighlight
+      ? `
+    z-index: 10;
+    outline: 3px solid #ffd400;
+    box-shadow: 0 0 0 3px #ffd400, 0 0 16px 4px rgba(255, 212, 0, 0.8);
+  `
+      : ''}
 `;
 
 const EventContent = styled.div<{
@@ -86,66 +102,81 @@ const TimespanLabel = styled.span`
   font-size: 80%;
 `;
 
-export const Events: FC<unknown> = () => (
-  <>
-    {EVENTS.map((event) => {
-      return event.periods.map((timespan) => {
-        const { from, to } = timespan;
-        const fromStamp = `${from.day}-${from.hours}-${from.minutes}`;
-        const toStamp = `${to.day}-${to.hours}-${to.minutes}`;
-        const nextTimestamp = findNextTimestampOnSameRow(
-          timespan.from,
-          event.location,
-          event.name === "Pool open" &&
-            timespan.from.day === "SUNDAY" &&
-            timespan.from.hours === 12 &&
-            timespan.from.minutes === 0,
-        );
-        const nextFrom = nextTimestamp
-          ? `${nextTimestamp.day}-${nextTimestamp.hours}-${nextTimestamp.minutes}`
-          : undefined;
-        return (
-          <EventBlock
-            key={event.name + fromStamp + toStamp}
-            from={fromStamp}
-            to={toStamp}
-            rowId={event.location.id}
-            isNegative={event.isNegative ?? false}
-            isLowered={shouldBeLoweredOnSchedule(
-              fromStamp,
-              event.location.id,
-              event.name,
-            )}
-          >
-            <EventContent
+export const Events: FC<unknown> = () => {
+  const { currentResult } = useSearch();
+
+  useEffect(() => {
+    if (!currentResult) return;
+
+    const parent = document.getElementById(GRID_ID);
+    const target = document.getElementById(currentResult);
+    const parentBounds = parent?.getBoundingClientRect();
+    const targetBounds = target?.getBoundingClientRect();
+    if (!parent || !target || !parentBounds || !targetBounds) return;
+
+    const offset = targetBounds.left - parentBounds.left - 140;
+    parent.scrollBy({ left: offset, behavior: 'smooth' });
+  }, [currentResult]);
+
+  return (
+    <>
+      {EVENTS.map((event) => {
+        return event.periods.map((timespan) => {
+          const { from, to } = timespan;
+          const fromStamp = `${from.day}-${from.hours}-${from.minutes}`;
+          const toStamp = `${to.day}-${to.hours}-${to.minutes}`;
+          const nextTimestamp = findNextTimestampOnSameRow(
+            timespan.from,
+            event.location,
+          );
+          const nextFrom = nextTimestamp
+            ? `${nextTimestamp.day}-${nextTimestamp.hours}-${nextTimestamp.minutes}`
+            : undefined;
+          return (
+            <EventBlock
+              key={from.id}
+              id={from.id}
               from={fromStamp}
-              to={nextFrom ?? "undefined"}
+              to={toStamp}
               rowId={event.location.id}
+              isNegative={event.isNegative ?? false}
+              isLowered={shouldBeLoweredOnSchedule(
+                fromStamp,
+                event.location.id,
+                event.name,
+              )}
+              showHighlight={from.id === currentResult}
             >
-              <EventText>
-                {event.subtext ? (
-                  <>
-                    <b>{event.name}</b>&nbsp;<span>({event.subtext})</span>
-                    &nbsp;
-                    <TimespanLabel>
-                      {from.hours}:{from.minutes || "00"} - {to.hours}:
-                      {to.minutes || "00"}
-                    </TimespanLabel>
-                  </>
-                ) : (
-                  <>
-                    <b>{event.name}</b>&nbsp;
-                    <TimespanLabel>
-                      {from.hours}:{from.minutes || "00"} - {to.hours}:
-                      {to.minutes || "00"}
-                    </TimespanLabel>
-                  </>
-                )}
-              </EventText>
-            </EventContent>
-          </EventBlock>
-        );
-      });
-    })}
-  </>
-);
+              <EventContent
+                from={fromStamp}
+                to={nextFrom ?? 'undefined'}
+                rowId={event.location.id}
+              >
+                <EventText>
+                  {event.subtext ? (
+                    <>
+                      <b>{event.name}</b>&nbsp;<span>({event.subtext})</span>
+                      &nbsp;
+                      <TimespanLabel>
+                        {from.hours}:{from.minutes || '00'} - {to.hours}:
+                        {to.minutes || '00'}
+                      </TimespanLabel>
+                    </>
+                  ) : (
+                    <>
+                      <b>{event.name}</b>&nbsp;
+                      <TimespanLabel>
+                        {from.hours}:{from.minutes || '00'} - {to.hours}:
+                        {to.minutes || '00'}
+                      </TimespanLabel>
+                    </>
+                  )}
+                </EventText>
+              </EventContent>
+            </EventBlock>
+          );
+        });
+      })}
+    </>
+  );
+};

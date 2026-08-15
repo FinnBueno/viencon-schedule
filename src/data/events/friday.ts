@@ -1,8 +1,7 @@
-import { friday, saturday, type Event } from "./timestamps";
+import { friday, saturday, type EventWithoutIds } from "./timestamps";
 import { LOCATIONS } from "../locations";
 
-export const FRIDAY_EVENTS: Event[] = [
-
+export const FRIDAY_EVENTS: EventWithoutIds[] = [
   // All-day events
   {
     name: "Matsuri / Ducky Yard Sale ",

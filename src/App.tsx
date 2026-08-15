@@ -1,14 +1,15 @@
-import { css, Global, ThemeProvider } from "@emotion/react";
-import { Events } from "./components/events";
-import type { Theme } from "@emotion/react";
-import { TableHeaders } from "./components/header";
-import { ScheduleGrid } from "./components/grid";
-import { darkTheme, lightTheme } from "./styles/theme";
+import { css, Global, ThemeProvider } from '@emotion/react';
+import { Events } from './components/events';
+import type { Theme } from '@emotion/react';
+import { TableHeaders } from './components/header';
+import { ScheduleGrid } from './components/grid';
+import { darkTheme, lightTheme } from './styles/theme';
 import {
   useVienconTheme,
   VienconThemeProvider,
-} from "./hooks/use-viencon-theme";
-// import { SearchMenu } from "./components/search";
+} from './hooks/use-viencon-theme';
+import { SearchMenu } from './components/search';
+import { SearchProvider } from './context/SearchContext';
 
 const getGlobalStyle = (theme: Theme) => css`
   html,
@@ -39,13 +40,15 @@ function App() {
 function AppWithTheme() {
   const { theme } = useVienconTheme();
   return (
-    <ThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
-      <Global styles={(theme) => getGlobalStyle(theme)} />
-      {/* <SearchMenu /> */}
-      <ScheduleGrid>
-        <TableHeaders />
-        <Events />
-      </ScheduleGrid>
+    <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
+      <SearchProvider>
+        <Global styles={(theme) => getGlobalStyle(theme)} />
+        <SearchMenu />
+        <ScheduleGrid>
+          <TableHeaders />
+          <Events />
+        </ScheduleGrid>
+      </SearchProvider>
     </ThemeProvider>
   );
 }

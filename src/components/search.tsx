@@ -1,9 +1,11 @@
-import { type FC } from "react";
-import styled from "@emotion/styled";
-import { useForm } from "react-hook-form";
-import { MdArrowLeft, MdArrowRight, MdClear } from "react-icons/md";
-import { useVienconTheme } from "../hooks/use-viencon-theme";
-import { useSearch } from "../context/SearchContext";
+import { type FC } from 'react';
+import styled from '@emotion/styled';
+import { useForm } from 'react-hook-form';
+import { MdArrowLeft, MdArrowRight, MdClear } from 'react-icons/md';
+import { useVienconTheme } from '../hooks/use-viencon-theme';
+import { useSearch } from '../context/SearchContext';
+import { IconButton } from './atoms/icon-button';
+import { BiSearch } from 'react-icons/bi';
 
 const SearchMenuContainer = styled.div`
   height: 48px;
@@ -39,6 +41,7 @@ const Content = styled.div`
 `;
 
 const Input = styled.input`
+  outline: none;
   width: 100%;
   max-width: 100%;
   height: 100%;
@@ -65,36 +68,52 @@ export const SearchMenu: FC = () => {
   const { getTheme } = useVienconTheme();
   const theme = getTheme();
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_, setQuery] = useSearch();
+  const {
+    isSearching,
+    updateQuery,
+    totalResults,
+    currentIndex,
+    goNext,
+    goBack,
+  } = useSearch();
 
   const { register, handleSubmit, reset } = useForm<SearchFormValues>({
-    defaultValues: { query: "" },
+    defaultValues: { query: '' },
   });
 
-  const onSubmit = (values: SearchFormValues) => {
-    setQuery(values.query);
-  };
-
   const handleClear = () => {
-    reset({ query: "" });
+    updateQuery();
+    reset({ query: '' });
   };
 
   return (
-    <>
-      {/* <SearchMenuSpacer /> */}
-      <SearchMenuContainer>
-        <Content as="form" onSubmit={handleSubmit(onSubmit)}>
-          <Input placeholder="Search..." {...register("query")} />
-          <MdClear
-            size={32}
-            color={theme.color.font.onBackground}
-            onClick={handleClear}
-          />
-          <MdArrowLeft size={32} />
-          <MdArrowRight size={32} />
-        </Content>
-      </SearchMenuContainer>
-    </>
+    <SearchMenuContainer>
+      <Content as="form" onSubmit={handleSubmit(() => {})}>
+        <Input
+          placeholder="Search..."
+          {...register('query', {
+            onChange: (e) => updateQuery(e.target.value),
+          })}
+        />
+        {!isSearching ? (
+          <BiSearch size={32} style={{ marginRight: '4px' }} />
+        ) : (
+          <>
+            <MdClear
+              size={32}
+              color={theme.color.font.onBackground}
+              onClick={handleClear}
+            />
+            <IconButton type="button" onClick={goBack}>
+              <MdArrowLeft size={32} color={theme.color.font.onBackground} />
+            </IconButton>
+            {totalResults === 0 ? 0 : currentIndex + 1} / {totalResults}
+            <IconButton type="button" onClick={goNext}>
+              <MdArrowRight size={32} color={theme.color.font.onBackground} />
+            </IconButton>
+          </>
+        )}
+      </Content>
+    </SearchMenuContainer>
   );
 };

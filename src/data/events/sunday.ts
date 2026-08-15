@@ -1,7 +1,7 @@
 import { LOCATIONS } from "../locations";
-import { sunday, type Event } from "./timestamps";
+import { sunday, type EventWithoutIds } from "./timestamps";
 
-export const SUNDAY_EVENTS: Event[] = [
+export const SUNDAY_EVENTS: EventWithoutIds[] = [
   // All-day events
   {
     name: "Artist Alley / Matsuri",
@@ -25,7 +25,7 @@ export const SUNDAY_EVENTS: Event[] = [
   },
   {
     name: "Pool open",
-    subtext: "Pohotoshoots only",
+    subtext: "Photoshoots only",
     location: LOCATIONS.Pool,
     periods: [
       {

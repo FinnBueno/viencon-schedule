@@ -1,15 +1,15 @@
-import styled from "@emotion/styled";
-import { Fragment, useRef, type FC, type ReactNode } from "react";
-import { ALL_LOCATIONS } from "../data/locations";
+import styled from '@emotion/styled';
+import { Fragment, useRef, type FC, type ReactNode } from 'react';
+import { ALL_LOCATIONS } from '../data/locations';
 import {
   getAllTimestampSegments,
   isVisibleTimestamp,
-} from "../scheduling/time-util";
-import { getAllLocationOptions } from "../scheduling/location-util";
-import { useHorizontalSrollPosition } from "../hooks/use-horizontal-scroll";
-import { LocationRow } from "./location";
+} from '../scheduling/time-util';
+import { getAllLocationOptions } from '../scheduling/location-util';
+import { useHorizontalSrollPosition } from '../hooks/use-horizontal-scroll';
+import { LocationRow } from './location';
 
-const segmentSpace = "80px";
+const segmentSpace = '80px';
 
 /**
  * Generates the column setup for the grid.
@@ -25,17 +25,17 @@ const segmentSpace = "80px";
  * @returns The CSS value for 'grid-template-columns' for the schedule grid
  */
 const getColumnTemplate = () => {
-  let columnTemplate = "[start-header] 148px [end-header ";
+  let columnTemplate = '[start-header] 148px [end-header ';
   const allSegments = getAllTimestampSegments();
   for (const { day, hours, quarters, index } of allSegments) {
     const stamp = `${day}-${hours}-${quarters}`;
-    const space = isVisibleTimestamp(hours, quarters) ? segmentSpace : "0px";
+    const space = isVisibleTimestamp(hours, quarters) ? segmentSpace : '0px';
     columnTemplate += `${stamp}-start] ${space} [${stamp}-end`;
     if (index != allSegments.length - 1) {
-      columnTemplate += " ";
+      columnTemplate += ' ';
     }
   }
-  return columnTemplate + " end-of-table]";
+  return columnTemplate + ' end-of-table]';
 };
 
 /**
@@ -51,7 +51,7 @@ const getColumnTemplate = () => {
  * @returns The CSS value for 'grid-template-rows' for the schedule grid
  */
 const getRowTemplate = () => {
-  let rowTemplate = "[start-timestamp] min-content [end-timestamp ";
+  let rowTemplate = '[start-timestamp] min-content [end-timestamp ';
   ALL_LOCATIONS.forEach((location, index) => {
     if (location.subroom) {
       const subroomKeys = Object.keys(location.subroom);
@@ -61,7 +61,7 @@ const getRowTemplate = () => {
         }
         rowTemplate += `${key}-start] min-content [${key}-end`;
         if (index !== subroomKeys.length - 1) {
-          rowTemplate += " ";
+          rowTemplate += ' ';
         } else {
           rowTemplate += ` ${location.id}-end `;
         }
@@ -69,11 +69,11 @@ const getRowTemplate = () => {
     } else {
       rowTemplate += `${location.id}-start] min-content [${location.id}-end`;
       if (index !== ALL_LOCATIONS.length - 1) {
-        rowTemplate += " ";
+        rowTemplate += ' ';
       }
     }
   });
-  return rowTemplate + "]";
+  return rowTemplate + ']';
 };
 
 const Grid = styled.div`
@@ -95,11 +95,13 @@ const GridBorder = styled.div<{ stamp: string; rowId: string }>`
   grid-row: ${(props) => `${props.rowId}-start / ${props.rowId}-end`};
 `;
 
+export const GRID_ID = 'grid';
+
 export const ScheduleGrid: FC<{ children: ReactNode }> = ({ children }) => {
   const gridRef = useRef<HTMLDivElement>(null);
   const scrollPosition = useHorizontalSrollPosition(gridRef);
   return (
-    <Grid ref={gridRef}>
+    <Grid id={GRID_ID} ref={gridRef}>
       {getAllLocationOptions().map((loc) => (
         <Fragment key={loc.id}>
           <GridBordersOnRow rowId={loc.id} />
