@@ -1,6 +1,5 @@
-import { compareTimestamps, toNumericTimestamp } from "../../scheduling/time-util";
+import { toNumericTimestamp } from "../../scheduling/time-util";
 import { assignIds } from "../../utils/id-util";
-import type { Location } from "../locations";
 import { FRIDAY_EVENTS } from "./friday";
 import { SATURDAY_EVENTS } from "./saturday";
 import { SUNDAY_EVENTS } from "./sunday";
