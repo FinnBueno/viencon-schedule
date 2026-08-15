@@ -14,10 +14,11 @@ export const EVENTS = assignIds(EVENTS_WITHOUT_IDS);
  * event that starts at the same time. This is a limited functionality and only supports
  * showing 2 events at the same time.
  */
-export const shouldBeLoweredOnSchedule = (fromTimestamp: Timestamp, location: string): boolean => {
+export const shouldBeLoweredOnSchedule = (fromTimestamp: Timestamp, location: string, eventId: string): boolean => {
   const numericStartSelf = toNumericTimestamp(fromTimestamp);
   return !!EVENTS.find(event => {
     if (event.location.id !== location) return false;
+    if (event.id === eventId) return false;
 
     return !!event.periods.find(prd => {
       const periodStart = toNumericTimestamp(prd.from);
