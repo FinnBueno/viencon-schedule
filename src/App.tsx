@@ -1,16 +1,18 @@
 import { css, Global, ThemeProvider } from '@emotion/react';
-import { Events } from './components/events';
 import type { Theme } from '@emotion/react';
-import { TableHeaders } from './components/header';
-import { ScheduleGrid } from './components/grid';
 import { darkTheme, lightTheme } from './styles/theme';
 import {
   useVienconTheme,
   VienconThemeProvider,
 } from './hooks/use-viencon-theme';
-import { SearchMenu } from './components/search';
 import { SearchProvider } from './context/SearchContext';
 import { ModalProvider } from './context/ModalContext';
+import { AppBar } from './components/organisms/app-bar';
+import { RouteProvider, useRouting } from './context/RouteContext';
+import { type FC } from 'react';
+import { SchedulePage } from './pages/schedule-page';
+import { MapPage } from './pages/map-page';
+import { FriendsPage } from './pages/friends-page';
 
 const getGlobalStyle = (theme: Theme) => css`
   html,
@@ -43,17 +45,24 @@ function AppWithTheme() {
   return (
     <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
       <SearchProvider>
-        <ModalProvider>
-          <Global styles={(theme) => getGlobalStyle(theme)} />
-          <SearchMenu />
-          <ScheduleGrid>
-            <TableHeaders />
-            <Events />
-          </ScheduleGrid>
-        </ModalProvider>
+        <RouteProvider>
+          <ModalProvider>
+            <Global styles={(theme) => getGlobalStyle(theme)} />
+            <Router />
+            <AppBar />
+          </ModalProvider>
+        </RouteProvider>
       </SearchProvider>
     </ThemeProvider>
   );
 }
+
+const Router: FC = () => {
+  const { route } = useRouting();
+  if (route === 'schedule') return <SchedulePage />;
+  if (route === 'map') return <MapPage />;
+  if (route === 'friends') return <FriendsPage />;
+  return <>Unknown route: {route}</>;
+};
 
 export default App;

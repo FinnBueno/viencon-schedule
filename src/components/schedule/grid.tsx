@@ -1,15 +1,15 @@
 import styled from '@emotion/styled';
 import { Fragment, useRef, type FC, type ReactNode } from 'react';
-import { ALL_LOCATIONS } from '../data/locations';
+import { ALL_LOCATIONS } from '../../data/locations';
 import {
   getAllTimestampSegments,
   isVisibleTimestamp,
-} from '../scheduling/time-util';
-import { getAllLocationOptions } from '../scheduling/location-util';
-import { useHorizontalSrollPosition } from '../hooks/use-horizontal-scroll';
+} from '../../scheduling/time-util';
+import { getAllLocationOptions } from '../../scheduling/location-util';
+import { useHorizontalSrollPosition } from '../../hooks/use-horizontal-scroll';
 import { LocationRow } from './location';
 
-const segmentSpace = '46px';
+const segmentSpace = '52px';
 
 /**
  * Generates the column setup for the grid.
@@ -84,6 +84,7 @@ const Grid = styled.div`
   overflow-x: scroll;
   overflow-y: hidden;
   width: 100vw;
+  padding-bottom: 12px;
 `;
 
 const GridBorder = styled.div<{

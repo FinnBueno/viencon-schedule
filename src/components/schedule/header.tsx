@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 import {
   getAllTimestampSegments,
   isVisibleTimestamp,
-} from '../scheduling/time-util';
-import { LogoImage } from './atoms/logo';
+} from '../../scheduling/time-util';
+import { LogoImage } from '../atoms/logo';
 import { Settings } from './settings';
 
 const DayHeader = styled.h2`

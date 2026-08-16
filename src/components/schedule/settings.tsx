@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Button } from './atoms/button';
+import { Button } from '../atoms/button';
 import {
   FaGithub,
   FaInfoCircle,
@@ -8,9 +8,9 @@ import {
   FaSun,
 } from 'react-icons/fa';
 import { type FC } from 'react';
-import { useVienconTheme } from '../hooks/use-viencon-theme';
-import { IconLink } from './atoms/icon-link';
-import { useModal } from '../context/ModalContext';
+import { useVienconTheme } from '../../hooks/use-viencon-theme';
+import { IconLink } from '../atoms/icon-link';
+import { useModal } from '../../context/ModalContext';
 import type { Theme } from '@emotion/react';
 
 const ButtonGroup = styled.div`

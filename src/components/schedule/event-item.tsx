@@ -1,10 +1,10 @@
 import { type FC } from 'react';
-import type { Event } from '../data/events/timestamps';
+import type { Event } from '../../data/events/timestamps';
 import styled from '@emotion/styled';
-import { shouldBeLoweredOnSchedule } from '../data/events';
+import { shouldBeLoweredOnSchedule } from '../../data/events';
 import { RxOpenInNewWindow } from 'react-icons/rx';
-import { IconButton } from './atoms/icon-button';
-import { useVienconTheme } from '../hooks/use-viencon-theme';
+import { IconButton } from '../atoms/icon-button';
+import { useVienconTheme } from '../../hooks/use-viencon-theme';
 
 const EventBlock = styled.div<{
   from: string;
@@ -59,7 +59,6 @@ const EventBlock = styled.div<{
   ${(props) =>
     props.showHighlight
       ? `
-    z-index: 10;
     outline: 3px solid #ffd400;
     box-shadow: 0 0 0 3px #ffd400, 0 0 16px 4px rgba(255, 212, 0, 0.8);
   `
@@ -90,11 +89,6 @@ const EventText = styled.span`
   left: 72px;
   top: 0;
   align-self: start;
-
-  display: inline-flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 4px;
 `;
 
 const TimespanLabel = styled.span`
@@ -135,7 +129,10 @@ export const EventItem: FC<Props> = ({ timespan, event, currentHighlight }) => {
             {to.minutes || '00'}
           </TimespanLabel>
           {event.link ? (
-            <IconButton onClick={() => window.open(event.link, '_blank')}>
+            <IconButton
+              onClick={() => window.open(event.link, '_blank')}
+              style={{ verticalAlign: 'middle' }}
+            >
               <RxOpenInNewWindow
                 size={20}
                 color={theme.color.font.onForeground}

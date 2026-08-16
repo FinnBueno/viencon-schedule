@@ -1,6 +1,6 @@
 import { useEffect, type FC } from 'react';
-import { EVENTS } from '../data/events';
-import { useSearch } from '../context/SearchContext';
+import { EVENTS } from '../../data/events';
+import { useSearch } from '../../context/SearchContext';
 import { GRID_ID } from './grid';
 import { EventItem } from './event-item';
 
@@ -25,6 +25,7 @@ export const Events: FC<unknown> = () => {
       {EVENTS.map((event) => {
         return event.periods.map((timespan) => (
           <EventItem
+            key={timespan.from.id}
             timespan={timespan}
             event={event}
             currentHighlight={currentResult}

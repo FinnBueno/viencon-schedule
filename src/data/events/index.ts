@@ -1,12 +1,12 @@
 import { toNumericTimestamp } from "../../scheduling/time-util";
-import { assignIds } from "../../utils/id-util";
+import { assignIdToEvents } from "../../utils/id-util";
 import { FRIDAY_EVENTS } from "./friday";
 import { SATURDAY_EVENTS } from "./saturday";
 import { SUNDAY_EVENTS } from "./sunday";
 import type { Timestamp } from "./timestamps";
 
 const EVENTS_WITHOUT_IDS = [...FRIDAY_EVENTS, ...SATURDAY_EVENTS, ...SUNDAY_EVENTS];
-export const EVENTS = assignIds(EVENTS_WITHOUT_IDS);
+export const EVENTS = assignIdToEvents(EVENTS_WITHOUT_IDS);
 
 /**
  * Returns whether a given element should be displayed at a lower point to not hide an

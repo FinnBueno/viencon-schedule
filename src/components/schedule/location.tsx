@@ -1,6 +1,6 @@
-import type { FC } from "react";
-import type { Location } from "../data/locations";
-import styled from "@emotion/styled";
+import type { FC } from 'react';
+import type { Location } from '../../data/locations';
+import styled from '@emotion/styled';
 
 const LargeLocationRow = styled.div<{ roomId: string; hide: boolean }>`
   grid-column: start-header / end-header;

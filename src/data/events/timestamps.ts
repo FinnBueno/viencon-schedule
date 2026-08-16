@@ -20,7 +20,7 @@ export const sunday = (hours: number, minutes: Quarter = 0): Omit<Timestamp, 'id
 
 export type Days = "FRIDAY" | "SATURDAY" | "SUNDAY";
 
-export const DAYS: Days[] = ["FRIDAY", "SATURDAY", "SUNDAY"];
+export const DAYS: Days[] = ["FRIDAY", "SATURDAY", "SUNDAY"] as const;
 
 export type Quarter = 0 | 15 | 30 | 45;
 
