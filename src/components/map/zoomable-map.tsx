@@ -24,11 +24,12 @@ const Container = styled.div`
   -webkit-user-select: none;
 `;
 
-const Stage = styled.div`
+const Stage = styled.div<{ ready: boolean }>`
   position: relative;
   width: 100%;
   transform-origin: 0 0;
   will-change: transform;
+  visibility: ${(props) => (props.ready ? 'visible' : 'hidden')};
 `;
 
 const MapImage = styled.img`
@@ -46,14 +47,14 @@ export const ZoomableMap: FC<ZoomableMapProps> = ({ pins = [] }) => (
 );
 
 const MapCanvas: FC = () => {
-  const { containerRef, contentRef, applyTransform, closePin } =
+  const { containerRef, contentRef, applyTransform, closePin, ready } =
     useMapSurface();
   const pins = useMapPins();
   const { openPin } = useMapTooltip();
 
   return (
     <Container ref={containerRef} onClick={closePin}>
-      <Stage ref={contentRef}>
+      <Stage ref={contentRef} ready={ready}>
         <MapImage
           src={map}
           alt="map"

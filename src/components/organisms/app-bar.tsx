@@ -3,7 +3,6 @@ import { useEffect, useRef, type FC } from 'react';
 import { GrMapLocation, GrSchedule } from 'react-icons/gr';
 import { useRouting } from '../../context/RouteContext';
 import { useVienconTheme } from '../../hooks/use-viencon-theme';
-import { FaUserGroup } from 'react-icons/fa6';
 
 const appBarHeight = 52;
 
@@ -67,7 +66,7 @@ export const AppBar: FC = () => {
     if (
       !scheduleBtnRef.current ||
       !mapBtnRef.current ||
-      !friendsBtnRef.current ||
+      // !friendsBtnRef.current ||
       !activeBackgroundRef.current
     )
       return;
@@ -113,7 +112,7 @@ export const AppBar: FC = () => {
             }
           />
         </AppBarIcon>
-        <AppBarIcon ref={friendsBtnRef} onClick={() => navigateTo('friends')}>
+        {/* <AppBarIcon ref={friendsBtnRef} onClick={() => navigateTo('friends')}>
           <FaUserGroup
             size={30}
             color={
@@ -122,7 +121,7 @@ export const AppBar: FC = () => {
               ]
             }
           />
-        </AppBarIcon>
+        </AppBarIcon> */}
       </Container>
     </>
   );

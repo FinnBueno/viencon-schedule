@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 const MAX_SCALE = 6;
 const PADDING = 48; // how far the image edge can be dragged past the container
@@ -16,6 +16,9 @@ export const usePinchZoom = <
 >() => {
   const containerRef = useRef<Container>(null);
   const contentRef = useRef<Content>(null);
+  // False until the first transform is applied, so the map can stay hidden
+  // and avoid flashing at the top-left before it's centred.
+  const [ready, setReady] = useState(false);
 
   const pointers = useRef(new Map<number, PointerEvent>());
   const transform = useRef({ scale: 1, tx: 0, ty: 0 });
@@ -65,6 +68,7 @@ export const usePinchZoom = <
       transform.current.tx = (cw - bw * minScale) / 2;
       transform.current.ty = (ch - bh * minScale) / 2;
       initialised.current = true;
+      setReady(true);
     }
     const scale = clamp(transform.current.scale, minScale, MAX_SCALE);
     transform.current.scale = scale;
@@ -219,5 +223,5 @@ export const usePinchZoom = <
     };
   }, [applyTransform, getMinScale]);
 
-  return { containerRef, contentRef, applyTransform, subscribe };
+  return { containerRef, contentRef, applyTransform, subscribe, ready };
 };

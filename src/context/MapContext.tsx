@@ -21,6 +21,7 @@ interface MapContextValue {
   containerRef: RefObject<HTMLDivElement | null>;
   contentRef: RefObject<HTMLDivElement | null>;
   applyTransform: () => void;
+  ready: boolean;
   subscribe: Subscribe;
   isPinOpen: (id: string) => boolean;
   togglePin: (id: string) => void;
@@ -33,10 +34,8 @@ export const MapProvider: FC<{ pins: Pin[]; children: ReactNode }> = ({
   pins,
   children,
 }) => {
-  const { containerRef, contentRef, applyTransform, subscribe } = usePinchZoom<
-    HTMLDivElement,
-    HTMLDivElement
-  >();
+  const { containerRef, contentRef, applyTransform, subscribe, ready } =
+    usePinchZoom<HTMLDivElement, HTMLDivElement>();
   const [openPinId, setOpenPinId] = useState<string | null>(null);
 
   const pinEls = useRef(new Map<string, HTMLDivElement>());
@@ -68,6 +67,7 @@ export const MapProvider: FC<{ pins: Pin[]; children: ReactNode }> = ({
         containerRef,
         contentRef,
         applyTransform,
+        ready,
         subscribe,
         isPinOpen,
         togglePin,
@@ -94,8 +94,9 @@ export const useMapPins = () => useMap().pins;
 // refs, transform application and dismissal for the map surface itself.
 // eslint-disable-next-line react-refresh/only-export-components
 export const useMapSurface = () => {
-  const { containerRef, contentRef, applyTransform, closePin } = useMap();
-  return { containerRef, contentRef, applyTransform, closePin };
+  const { containerRef, contentRef, applyTransform, closePin, ready } =
+    useMap();
+  return { containerRef, contentRef, applyTransform, closePin, ready };
 };
 
 // per-pin data, like open state, toggle fn and ref to display tooltip

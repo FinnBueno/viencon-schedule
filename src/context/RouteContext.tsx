@@ -19,7 +19,7 @@ const RouteContext = createContext<RouteData>({
 });
 
 export const RouteProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const [route, setRoute] = useState<Route>('map');
+  const [route, setRoute] = useState<Route>('schedule');
 
   return (
     <RouteContext.Provider
