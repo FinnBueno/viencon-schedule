@@ -53,6 +53,7 @@ const ActiveBackground = styled.div`
   height: 48px;
   width: 48px;
   transition: transform 150ms ease-in-out;
+  transform: translateX(calc(50vw - 24px));
 
   @media (min-width: 769px) {
     top: 0;
