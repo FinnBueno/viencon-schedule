@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Fragment, useRef, type FC, type ReactNode } from 'react';
+import { memo, useRef, type FC, type ReactNode } from 'react';
 import { ALL_LOCATIONS } from '../../data/locations';
 import {
   getAllTimestampSegments,
@@ -89,15 +89,13 @@ const Grid = styled.div`
 
 const GridBorder = styled.div<{
   stamp: string;
-  rowId: string;
   isDark: boolean;
 }>`
   border-color: ${(props) => (props.isDark ? props.theme.color.grid.softBorder : props.theme.color.grid.hardBorder)};
   border-style: solid;
   border-width: 0 0 0 1px;
-  height: calc(100% + 8px);
   grid-column: ${(props) => `${props.stamp}-start / ${props.stamp}-end`};
-  grid-row: ${(props) => `${props.rowId}-start / ${props.rowId}-end`};
+  grid-row: 2 / -1;
 `;
 
 export const GRID_ID = 'grid';
@@ -107,29 +105,24 @@ export const ScheduleGrid: FC<{ children: ReactNode }> = ({ children }) => {
   const scrollPosition = useHorizontalSrollPosition(gridRef);
   return (
     <Grid id={GRID_ID} ref={gridRef}>
+      <GridBorders />
       {getAllLocationOptions().map((loc) => (
-        <Fragment key={loc.id}>
-          <GridBordersOnRow rowId={loc.id} />
-          <LocationRow scrollPosition={scrollPosition} loc={loc} />
-        </Fragment>
+        <LocationRow key={loc.id} scrollPosition={scrollPosition} loc={loc} />
       ))}
       {children}
     </Grid>
   );
 };
 
-const GridBordersOnRow: FC<{ rowId: string }> = ({ rowId }) => (
+// The vertical grid lines are static and span the whole grid height, so they are
+// drawn once (not per row) and memoized to skip re-renders on horizontal scroll.
+const GridBorders: FC = memo(() => (
   <>
     {getAllTimestampSegments().map(({ day, hours, quarters }) => {
       const stamp = `${day}-${hours}-${quarters}`;
       return (
-        <GridBorder
-          key={stamp}
-          stamp={stamp}
-          rowId={rowId}
-          isDark={quarters % 30 === 15}
-        />
+        <GridBorder key={stamp} stamp={stamp} isDark={quarters % 30 === 15} />
       );
     })}
   </>
-);
+));

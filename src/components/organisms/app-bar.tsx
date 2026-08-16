@@ -59,7 +59,7 @@ export const AppBar: FC = () => {
 
   const scheduleBtnRef = useRef<HTMLButtonElement>(null);
   const mapBtnRef = useRef<HTMLButtonElement>(null);
-  const friendsBtnRef = useRef<HTMLButtonElement>(null);
+  // const friendsBtnRef = useRef<HTMLButtonElement>(null);
   const activeBackgroundRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -79,9 +79,11 @@ export const AppBar: FC = () => {
       case 'map':
         activeButton = mapBtnRef.current;
         break;
-      case 'friends':
-        activeButton = friendsBtnRef.current;
-        break;
+      // case 'friends':
+      //   activeButton = friendsBtnRef.current;
+      //   break;
+      default:
+        return;
     }
 
     activeBackgroundRef.current.style.transform = `translateX(${activeButton.offsetLeft}px)`;
