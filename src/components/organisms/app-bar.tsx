@@ -18,6 +18,14 @@ const Container = styled.div`
   align-items: center;
 
   background-color: ${(props) => props.theme.color.backgroundHighlight};
+
+  @media (min-width: 769px) {
+    top: 0;
+    width: fit-content;
+    height: ${appBarHeight - 4}px;
+    border-radius: 0 0 4px 0;
+    margin-left: 12px;
+  }
 `;
 
 const AppBarIcon = styled.button`
@@ -45,10 +53,19 @@ const ActiveBackground = styled.div`
   height: 48px;
   width: 48px;
   transition: transform 150ms ease-in-out;
+
+  @media (min-width: 769px) {
+    top: 0;
+    border-radius: 0 0 4px 4px;
+  }
 `;
 
 const AppBarHeightPadding = styled.div`
   height: ${appBarHeight}px;
+
+  @media (min-width: 769px) {
+    height: 0px;
+  }
 `;
 
 export const AppBar: FC = () => {
