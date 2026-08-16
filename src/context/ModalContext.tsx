@@ -4,6 +4,7 @@ import {
   useContext,
   useState,
   type FC,
+  type MouseEvent,
   type ReactNode,
 } from 'react';
 import { Button } from '../components/atoms/button';
@@ -52,10 +53,12 @@ const CloseButton = styled(Button)`
 
 type SearchControls = {
   openModal: (content: ReactNode) => void;
+  closeModal: () => void;
 };
 
 const ModalContext = createContext<SearchControls>({
   openModal: () => {},
+  closeModal: () => {},
 });
 
 export const ModalProvider: FC<{ children: ReactNode }> = ({ children }) => {
@@ -71,16 +74,23 @@ export const ModalProvider: FC<{ children: ReactNode }> = ({ children }) => {
     setShow(false);
   };
 
+  const handleBackdropClick = (event: MouseEvent<HTMLDivElement>) => {
+    if (event.target === event.currentTarget) {
+      closeModal();
+    }
+  };
+
   return (
     <ModalContext.Provider
       value={{
         openModal,
+        closeModal,
       }}
     >
       {children}
-      <Backdrop onClick={closeModal} show={show}>
+      <Backdrop onClick={handleBackdropClick} show={show}>
         <ModalContainer>
-          <CloseButton>
+          <CloseButton onClick={closeModal}>
             <IoCloseCircle
               color={darkTheme.color.font.onBackground}
               size={28}

@@ -2,6 +2,7 @@ import type { FC } from 'react';
 import { ZoomableMap } from '../components/map/zoomable-map';
 import { PINS } from '../data/map/pins';
 import styled from '@emotion/styled';
+import mapImg from '../assets/viencon-map.webp';
 
 const MapHeader = styled.div`
   position: absolute;
@@ -11,6 +12,10 @@ const MapHeader = styled.div`
   z-index: 1;
   overflow: visible;
   padding: 8px;
+
+  @media (min-width: 769px) {
+    margin-left: 160px;
+  }
 `;
 
 const Title = styled.h1`
@@ -32,6 +37,6 @@ export const MapPage: FC<{ target?: string }> = ({ target }) => (
       <Title>Map</Title>
       <Subtitle>Find any events or areas with their timetables.</Subtitle>
     </MapHeader>
-    <ZoomableMap pins={PINS} target={target} />
+    <ZoomableMap pins={PINS} target={target} img={mapImg} />
   </>
 );

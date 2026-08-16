@@ -1,5 +1,5 @@
 import { type FC } from 'react';
-import map from '../../assets/viencon-map.webp';
+
 import styled from '@emotion/styled';
 import type { Pin } from '../../data/map/pins';
 import { PinTooltip } from './pin-tooltip';
@@ -14,6 +14,7 @@ import {
 interface ZoomableMapProps {
   pins?: Pin[];
   target?: string;
+  img: string;
 }
 
 const Container = styled.div`
@@ -23,6 +24,9 @@ const Container = styled.div`
   touch-action: none; /* we handle all touch gestures ourselves */
   user-select: none;
   -webkit-user-select: none;
+  @media (min-width: 769px) {
+    height: 100dvh;
+  }
 `;
 
 const Stage = styled.div<{ ready: boolean }>`
@@ -40,14 +44,18 @@ const MapImage = styled.img`
   -webkit-user-drag: none;
 `;
 
-export const ZoomableMap: FC<ZoomableMapProps> = ({ pins = [], target }) => (
+export const ZoomableMap: FC<ZoomableMapProps> = ({
+  pins = [],
+  target,
+  img,
+}) => (
   // setup map provider so children like pins can use hooks to access map data
   <MapProvider pins={pins} target={target}>
-    <MapCanvas />
+    <MapCanvas img={img} />
   </MapProvider>
 );
 
-const MapCanvas: FC = () => {
+const MapCanvas: FC<{ img: string }> = ({ img }) => {
   const { containerRef, contentRef, applyTransform, closePin, ready } =
     useMapSurface();
   const pins = useMapPins();
@@ -57,7 +65,7 @@ const MapCanvas: FC = () => {
     <Container ref={containerRef} onClick={closePin}>
       <Stage ref={contentRef} ready={ready}>
         <MapImage
-          src={map}
+          src={img}
           alt="map"
           draggable={false}
           onLoad={applyTransform}

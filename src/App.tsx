@@ -42,13 +42,17 @@ function App() {
 
 function AppWithTheme() {
   const { theme } = useVienconTheme();
+
+  const queryParams = new URLSearchParams(window.location.search);
+  const addFriendParam = queryParams.get('add-friend');
+
   return (
     <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
       <SearchProvider>
         <RouteProvider>
           <ModalProvider>
             <Global styles={(theme) => getGlobalStyle(theme)} />
-            <Router />
+            <Router addFriendData={addFriendParam ?? undefined} />
             <AppBar />
           </ModalProvider>
         </RouteProvider>
@@ -57,8 +61,16 @@ function AppWithTheme() {
   );
 }
 
-const Router: FC = () => {
+const Router: FC<{ addFriendData?: string }> = () => {
   const { route, routeData } = useRouting();
+
+  // todo:
+  // if we run into friend data, we'll do the following:
+  // 1. interpret the friend data and register it
+  // 2. display a success popup
+  // 3. manually clear the url (I guess?)
+  // 4. navigate to the friends page and pass the friend ID as a target
+
   // Keep schedule page mounted after its first visit so switching back isn't so slow
   const visitedSchedule = useRef<boolean>(false);
   if (route === 'schedule') visitedSchedule.current = true;
