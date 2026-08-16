@@ -4,10 +4,20 @@ import { LOCATIONS } from "../locations";
 export const FRIDAY_EVENTS: EventWithoutIds[] = [
   // All-day events
   {
-    name: "Matsuri / Ducky Yard Sale ",
+    name: "Matsuri",
+    location: LOCATIONS.ArtistAlleyMatsuri,
+    periods: [
+      {
+        from: friday(16),
+        to: friday(19)
+      }
+    ]
+  },
+  {
+    name: "Ducky Yard Sale",
     subtext: "Pickup/Drop off only",
     link: 'https://viencon.nl/ducky-yard-sale',
-    location: LOCATIONS.HawkArena.subroom.market,
+    location: LOCATIONS.HawkArena,
     periods: [
       {
         from: friday(16),
@@ -54,7 +64,7 @@ export const FRIDAY_EVENTS: EventWithoutIds[] = [
   },
   {
     name: "Opening Ceremony",
-    location: LOCATIONS.HawkArena.subroom.eventRooms,
+    location: LOCATIONS.HawkArena,
     periods: [
       {
         from: friday(19),

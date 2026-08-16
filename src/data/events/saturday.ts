@@ -4,8 +4,18 @@ import { saturday, sunday, type EventWithoutIds } from "./timestamps";
 export const SATURDAY_EVENTS: EventWithoutIds[] = [
   // All-day events
   {
-    name: "Artist Alley / Matsuri / Ducky Yard Sale",
-    location: LOCATIONS.HawkArena.subroom.market,
+    name: "Artist Alley / Matsuri",
+    location: LOCATIONS.ArtistAlleyMatsuri,
+    periods: [
+      {
+        from: saturday(12),
+        to: saturday(18)
+      }
+    ]
+  },
+  {
+    name: "Ducky Yard Sale",
+    location: LOCATIONS.HawkArena,
     link: 'https://viencon.nl/ducky-yard-sale',
     periods: [
       {
@@ -194,7 +204,7 @@ export const SATURDAY_EVENTS: EventWithoutIds[] = [
   },
   {
     name: "House Games",
-    location: LOCATIONS.HawkArena.subroom.eventRooms,
+    location: LOCATIONS.HawkArena,
     link: 'https://viencon.nl/house-games',
     periods: [
       {
@@ -205,7 +215,7 @@ export const SATURDAY_EVENTS: EventWithoutIds[] = [
   },
   {
     name: "Dodgeball",
-    location: LOCATIONS.HawkArena.subroom.eventRooms,
+    location: LOCATIONS.HawkArena,
     link: 'https://viencon.nl/dodgeball',
     periods: [
       {
@@ -216,7 +226,7 @@ export const SATURDAY_EVENTS: EventWithoutIds[] = [
   },
   {
     name: "House Games",
-    location: LOCATIONS.HawkArena.subroom.eventRooms,
+    location: LOCATIONS.HawkArena,
     link: 'https://viencon.nl/house-games',
     periods: [
       {

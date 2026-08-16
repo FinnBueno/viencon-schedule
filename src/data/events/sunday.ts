@@ -5,8 +5,7 @@ export const SUNDAY_EVENTS: EventWithoutIds[] = [
   // All-day events
   {
     name: "Artist Alley / Matsuri",
-    location: LOCATIONS.HawkArena.subroom.market,
-    link: 'https://viencon.nl/ducky-yard-sale',
+    location: LOCATIONS.ArtistAlleyMatsuri,
     periods: [
       {
         from: sunday(12),
@@ -16,7 +15,8 @@ export const SUNDAY_EVENTS: EventWithoutIds[] = [
   },
   {
     name: "Ducky Yard Sale",
-    location: LOCATIONS.HawkArena.subroom.market,
+    location: LOCATIONS.HawkArena,
+    link: 'https://viencon.nl/ducky-yard-sale',
     periods: [
       {
         from: sunday(12),
@@ -83,7 +83,7 @@ export const SUNDAY_EVENTS: EventWithoutIds[] = [
   },
   {
     name: "House Games",
-    location: LOCATIONS.HawkArena.subroom.eventRooms,
+    location: LOCATIONS.HawkArena,
     link: 'https://viencon.nl/house-games',
     periods: [
       {
@@ -94,7 +94,7 @@ export const SUNDAY_EVENTS: EventWithoutIds[] = [
   },
   {
     name: "Dodgeball",
-    location: LOCATIONS.HawkArena.subroom.eventRooms,
+    location: LOCATIONS.HawkArena,
     link: 'https://viencon.nl/dodgeball',
     periods: [
       {
@@ -105,7 +105,7 @@ export const SUNDAY_EVENTS: EventWithoutIds[] = [
   },
   {
     name: "Ending Ceremony",
-    location: LOCATIONS.HawkArena.subroom.eventRooms,
+    location: LOCATIONS.HawkArena,
     periods: [
       {
         from: sunday(17),
