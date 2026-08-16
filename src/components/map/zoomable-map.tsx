@@ -59,16 +59,15 @@ const MapCanvas: FC = () => {
           alt="map"
           draggable={false}
           onLoad={applyTransform}
-          // todo: remove
-          // TEMP: log fractional coordinates of a clicked point for authoring pins.
-          onClick={(e) => {
-            const rect = e.currentTarget.getBoundingClientRect();
-            const x = (e.clientX - rect.left) / rect.width;
-            const y = (e.clientY - rect.top) / rect.height;
-            navigator.clipboard.writeText(
-              `x: ${x.toFixed(3)}, y: ${y.toFixed(3)}`,
-            );
-          }}
+          // // TEMP: log fractional coordinates of a clicked point for authoring pins.
+          // onClick={(e) => {
+          //   const rect = e.currentTarget.getBoundingClientRect();
+          //   const x = (e.clientX - rect.left) / rect.width;
+          //   const y = (e.clientY - rect.top) / rect.height;
+          //   navigator.clipboard.writeText(
+          //     `x: ${x.toFixed(3)}, y: ${y.toFixed(3)}`,
+          //   );
+          // }}
         />
         {pins.map((pin) => (
           <MapPin key={pin.id} pin={pin} />
