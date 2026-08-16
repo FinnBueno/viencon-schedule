@@ -58,28 +58,19 @@ function AppWithTheme() {
 }
 
 const Router: FC = () => {
-  const { route } = useRouting();
-  // Keep each page mounted after its first visit so switching back is instant
-  // instead of paying the full re-mount cost (heaviest for the schedule).
-  const visited = useRef<Set<string>>(new Set());
-  visited.current.add(route);
+  const { route, routeData } = useRouting();
+  // Keep schedule page mounted after its first visit so switching back isn't so slow
+  const visitedSchedule = useRef<boolean>(false);
+  if (route === 'schedule') visitedSchedule.current = true;
   return (
     <>
-      {visited.current.has('schedule') && (
+      {visitedSchedule.current && (
         <div hidden={route !== 'schedule'}>
           <SchedulePage />
         </div>
       )}
-      {visited.current.has('map') && (
-        <div hidden={route !== 'map'}>
-          <MapPage />
-        </div>
-      )}
-      {visited.current.has('friends') && (
-        <div hidden={route !== 'friends'}>
-          <FriendsPage />
-        </div>
-      )}
+      {route === 'map' && <MapPage target={routeData} />}
+      {route === 'friends' && <FriendsPage />}
     </>
   );
 };

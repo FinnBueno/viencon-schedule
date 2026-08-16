@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import { type FC } from 'react';
 import map from '../../assets/viencon-map.webp';
 import styled from '@emotion/styled';
 import type { Pin } from '../../data/map/pins';
@@ -13,6 +13,7 @@ import {
 
 interface ZoomableMapProps {
   pins?: Pin[];
+  target?: string;
 }
 
 const Container = styled.div`
@@ -39,9 +40,9 @@ const MapImage = styled.img`
   -webkit-user-drag: none;
 `;
 
-export const ZoomableMap: FC<ZoomableMapProps> = ({ pins = [] }) => (
+export const ZoomableMap: FC<ZoomableMapProps> = ({ pins = [], target }) => (
   // setup map provider so children like pins can use hooks to access map data
-  <MapProvider pins={pins}>
+  <MapProvider pins={pins} target={target}>
     <MapCanvas />
   </MapProvider>
 );

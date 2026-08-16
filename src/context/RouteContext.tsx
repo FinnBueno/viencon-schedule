@@ -10,7 +10,8 @@ type Route = 'schedule' | 'map' | 'friends';
 
 type RouteData = {
   route: Route;
-  navigateTo: (route: Route) => void;
+  routeData?: string;
+  navigateTo: (route: Route, routeData?: string) => void;
 };
 
 const RouteContext = createContext<RouteData>({
@@ -19,13 +20,20 @@ const RouteContext = createContext<RouteData>({
 });
 
 export const RouteProvider: FC<{ children: ReactNode }> = ({ children }) => {
-  const [route, setRoute] = useState<Route>('schedule');
+  const [[route, routeData], setRoute] = useState<[Route, string | undefined]>([
+    'schedule',
+    undefined,
+  ]);
+
+  const navigateTo = (newRoute: Route, routeData?: string) =>
+    setRoute([newRoute, routeData]);
 
   return (
     <RouteContext.Provider
       value={{
         route,
-        navigateTo: setRoute,
+        routeData,
+        navigateTo,
       }}
     >
       {children}

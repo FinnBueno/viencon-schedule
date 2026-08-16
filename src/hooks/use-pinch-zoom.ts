@@ -4,6 +4,14 @@ const MAX_SCALE = 6;
 const PADDING = 48; // how far the image edge can be dragged past the container
 const DRAG_THRESHOLD = 6; // px a single pointer must travel before it pans (vs. a tap)
 
+// A point on the map to centre on first, as fractions (0–1) of the map, plus
+// the scale to zoom to.
+export interface Focus {
+  x: number;
+  y: number;
+  scale: number;
+}
+
 const clamp = (value: number, min: number, max: number) =>
   Math.min(Math.max(value, min), max);
 
@@ -13,9 +21,15 @@ const distance = (a: PointerEvent, b: PointerEvent) =>
 export const usePinchZoom = <
   Container extends HTMLElement,
   Content extends HTMLElement,
->() => {
+>(
+  // Consulted once, when the map first gets real dimensions, so the very first
+  // paint is already centred on the focus (no flash of the whole map first).
+  initialFocus?: () => Focus | null,
+) => {
   const containerRef = useRef<Container>(null);
   const contentRef = useRef<Content>(null);
+  const initialFocusRef = useRef(initialFocus);
+  initialFocusRef.current = initialFocus;
   // False until the first transform is applied, so the map can stay hidden
   // and avoid flashing at the top-left before it's centred.
   const [ready, setReady] = useState(false);
@@ -63,10 +77,19 @@ export const usePinchZoom = <
 
     const minScale = getMinScale();
     if (!initialised.current && bh) {
-      // Start with the whole map visible and centred.
-      transform.current.scale = minScale;
-      transform.current.tx = (cw - bw * minScale) / 2;
-      transform.current.ty = (ch - bh * minScale) / 2;
+      const focus = initialFocusRef.current?.();
+      if (focus) {
+        // Start zoomed in on the focus point, centred in the container.
+        const s = clamp(focus.scale, minScale, MAX_SCALE);
+        transform.current.scale = s;
+        transform.current.tx = cw / 2 - focus.x * bw * s;
+        transform.current.ty = ch / 2 - focus.y * bh * s;
+      } else {
+        // Start with the whole map visible and centred.
+        transform.current.scale = minScale;
+        transform.current.tx = (cw - bw * minScale) / 2;
+        transform.current.ty = (ch - bh * minScale) / 2;
+      }
       initialised.current = true;
       setReady(true);
     }
@@ -97,6 +120,25 @@ export const usePinchZoom = <
     content.style.setProperty('--map-scale', String(scale));
     listeners.current.forEach((listener) => listener());
   }, [getMinScale]);
+
+  // Centre the given fractional map point in the container at `scale`, clamped
+  // to the map's bounds. Used to pan/zoom to a pin after the map is mounted.
+  const focusOn = useCallback(
+    ({ x, y, scale }: Focus) => {
+      const container = containerRef.current;
+      const content = contentRef.current;
+      if (!container || !content || !content.offsetHeight) return;
+
+      const s = clamp(scale, getMinScale(), MAX_SCALE);
+      transform.current.scale = s;
+      transform.current.tx =
+        container.clientWidth / 2 - x * content.offsetWidth * s;
+      transform.current.ty =
+        container.clientHeight / 2 - y * content.offsetHeight * s;
+      applyTransform();
+    },
+    [applyTransform, getMinScale],
+  );
 
   useEffect(() => {
     const container = containerRef.current;
@@ -223,5 +265,12 @@ export const usePinchZoom = <
     };
   }, [applyTransform, getMinScale]);
 
-  return { containerRef, contentRef, applyTransform, subscribe, ready };
+  return {
+    containerRef,
+    contentRef,
+    applyTransform,
+    focusOn,
+    subscribe,
+    ready,
+  };
 };

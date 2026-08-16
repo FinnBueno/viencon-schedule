@@ -2,6 +2,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useRef,
   useState,
   type FC,
@@ -12,6 +13,8 @@ import type { Pin } from '../data/map/pins';
 import { usePinchZoom } from '../hooks/use-pinch-zoom';
 
 type Subscribe = (listener: () => void) => () => void;
+
+const AUTO_FOCUS_SCALE = 3;
 
 interface MapContextValue {
   pins: Pin[];
@@ -30,13 +33,40 @@ interface MapContextValue {
 
 const MapContext = createContext<MapContextValue | null>(null);
 
-export const MapProvider: FC<{ pins: Pin[]; children: ReactNode }> = ({
-  pins,
-  children,
-}) => {
-  const { containerRef, contentRef, applyTransform, subscribe, ready } =
-    usePinchZoom<HTMLDivElement, HTMLDivElement>();
+export const MapProvider: FC<{
+  pins: Pin[];
+  target?: string;
+  children: ReactNode;
+}> = ({ pins, target, children }) => {
+  // The pin whose location (or parent location) matches the requested target.
+  const targetPin = target
+    ? (pins.find((pin) => pin.location?.id === target) ?? null)
+    : null;
+  const targetPinRef = useRef(targetPin);
+  targetPinRef.current = targetPin;
+
+  const {
+    containerRef,
+    contentRef,
+    applyTransform,
+    focusOn,
+    subscribe,
+    ready,
+  } = usePinchZoom<HTMLDivElement, HTMLDivElement>(() => {
+    const pin = targetPinRef.current;
+    return pin ? { x: pin.x, y: pin.y, scale: AUTO_FOCUS_SCALE } : null;
+  });
   const [openPinId, setOpenPinId] = useState<string | null>(null);
+
+  // Re-focus when the target changes after the map is already mounted (the
+  // initial focus above only runs once, on the map's first layout). Also open
+  // the target pin's tooltip once the map is ready.
+  useEffect(() => {
+    if (ready && targetPin) {
+      focusOn({ x: targetPin.x, y: targetPin.y, scale: AUTO_FOCUS_SCALE });
+      setOpenPinId(targetPin.id);
+    }
+  }, [ready, targetPin, focusOn]);
 
   const pinEls = useRef(new Map<string, HTMLDivElement>());
   const anchorRef = useRef<HTMLDivElement | null>(null);

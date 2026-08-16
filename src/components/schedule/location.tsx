@@ -1,6 +1,9 @@
 import type { FC } from 'react';
 import type { Location } from '../../data/locations';
 import styled from '@emotion/styled';
+import { IoIosPin } from 'react-icons/io';
+import { IconButton } from '../atoms/icon-button';
+import { useRouting } from '../../context/RouteContext';
 
 const LargeLocationRow = styled.div<{ roomId: string; hide: boolean }>`
   grid-column: start-header / end-header;
@@ -51,22 +54,44 @@ const LocationRowContent = styled.p`
   padding: 4px 0;
 `;
 
+const GoToMapButton = styled(IconButton)`
+  margin-left: 4px;
+`;
+
 const SHRINK_THRESHOLD = 75;
 
 export const LocationRow: FC<{ scrollPosition: number; loc: Location }> = ({
   scrollPosition,
   loc,
-}) => (
-  <>
-    <SmallLocationRow roomId={loc.id} hide={scrollPosition <= SHRINK_THRESHOLD}>
-      <LocationRowContent>{loc.emoji}</LocationRowContent>
-    </SmallLocationRow>
-    <LargeLocationRow roomId={loc.id} hide={scrollPosition > SHRINK_THRESHOLD}>
-      <LocationRowContent
-        dangerouslySetInnerHTML={{
-          __html: loc.name,
-        }}
-      />
-    </LargeLocationRow>
-  </>
-);
+}) => {
+  const { navigateTo } = useRouting();
+
+  const goToMap = () => {
+    console.log(loc.id);
+    return navigateTo('map', loc.id);
+  };
+
+  return (
+    <>
+      <SmallLocationRow
+        roomId={loc.id}
+        hide={scrollPosition <= SHRINK_THRESHOLD}
+      >
+        <LocationRowContent>{loc.emoji}</LocationRowContent>
+      </SmallLocationRow>
+      <LargeLocationRow
+        roomId={loc.id}
+        hide={scrollPosition > SHRINK_THRESHOLD}
+      >
+        <LocationRowContent
+          dangerouslySetInnerHTML={{
+            __html: loc.name,
+          }}
+        />
+        <GoToMapButton onClick={goToMap}>
+          <IoIosPin size={24} />
+        </GoToMapButton>
+      </LargeLocationRow>
+    </>
+  );
+};

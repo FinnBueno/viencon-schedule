@@ -10,6 +10,7 @@ import { useHorizontalSrollPosition } from '../../hooks/use-horizontal-scroll';
 import { LocationRow } from './location';
 
 const segmentSpace = '52px';
+const locationSpace = '168px';
 
 /**
  * Generates the column setup for the grid.
@@ -25,7 +26,7 @@ const segmentSpace = '52px';
  * @returns The CSS value for 'grid-template-columns' for the schedule grid
  */
 const getColumnTemplate = () => {
-  let columnTemplate = '[start-header] 148px [end-header ';
+  let columnTemplate = `[start-header] ${locationSpace} [end-header `;
   const allSegments = getAllTimestampSegments();
   for (const { day, hours, quarters, index } of allSegments) {
     const stamp = `${day}-${hours}-${quarters}`;
