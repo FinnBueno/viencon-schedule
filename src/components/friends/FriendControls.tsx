@@ -5,6 +5,9 @@ import { useModal } from '../../context/ModalContext';
 import { SpecifyIdentityModal } from './SpecifyIdentityModal';
 import { useShareableIdentity } from '../../context/IdentityContext';
 import { ConfirmDeletionModal } from './ConfirmDeletionModal';
+import { ManualFriendListEditorModal } from './ManualFriendListEditorModal';
+import { ShareHouseNumberModal } from './ShareHouseNumberModal';
+import { useFriends } from '../../context/FriendsContext';
 
 const Container = styled.div`
   display: flex;
@@ -36,10 +39,15 @@ export const FriendControls: FC = () => {
   const { openModal, closeModal } = useModal();
   const { isInitialized, updateIdentity, clearIdentity } =
     useShareableIdentity();
+  const { clearFriends } = useFriends();
 
   const onCompleteIdentityModal = (name: string, houseNumber: number) => {
     closeModal();
     updateIdentity(name, houseNumber);
+  };
+
+  const onEditManually = () => {
+    openModal(<ManualFriendListEditorModal onComplete={closeModal} />);
   };
 
   const onShare = async () => {
@@ -48,9 +56,13 @@ export const FriendControls: FC = () => {
       return;
     }
 
+    openModal(<ShareHouseNumberModal onComplete={onShareConfirm} />);
+  };
+
+  const onShareConfirm = async (shareLink: string) => {
     if (navigator.share) {
       try {
-        await navigator.share({ text: 'todo: create shareable link' });
+        await navigator.share({ text: shareLink });
       } catch (error) {
         console.error('Error sharing:', error);
       }
@@ -62,6 +74,7 @@ export const FriendControls: FC = () => {
       <ConfirmDeletionModal
         onComplete={() => {
           clearIdentity();
+          clearFriends();
           closeModal();
         }}
       />,
@@ -69,12 +82,10 @@ export const FriendControls: FC = () => {
 
   return (
     <Container>
-      {isInitialized && (
-        <DangerIconButton onClick={openDeleteModal}>
-          <BiTrash size={28} />
-        </DangerIconButton>
-      )}
-      <VisualButton>Add friends</VisualButton>
+      <DangerIconButton onClick={openDeleteModal}>
+        <BiTrash size={28} />
+      </DangerIconButton>
+      <VisualButton onClick={onEditManually}>Edit manually</VisualButton>
       <VisualButton onClick={onShare}>Share house number</VisualButton>
     </Container>
   );

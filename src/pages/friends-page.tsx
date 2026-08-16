@@ -1,26 +1,70 @@
-import type { FC } from 'react';
+import { useMemo, type FC } from 'react';
 import { ZoomableMap } from '../components/map/zoomable-map';
 import mapImg from '../assets/viencon-park-map.avif';
 import { FriendsMenu } from '../components/friends/FriendsMenu';
-import { HOUSE_COORDINATES } from '../data/park/getHouseCoordinates';
-import type { PinType } from '../data/map/pins';
-import { IdentityProvider } from '../context/IdentityContext';
+import {
+  getHouseCoordinates,
+  type HouseAddress,
+} from '../data/park/getHouseCoordinates';
+import type { Pin } from '../data/map/pins';
+import { useFriends } from '../context/FriendsContext';
+import { HousePinContent } from '../components/friends/tooltips/HousePinContent';
+import { useShareableIdentity } from '../context/IdentityContext';
 
 interface Props {
   target?: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const pins = Object.entries(HOUSE_COORDINATES).map(([key, coordinates]) => ({
-  ...coordinates,
-  name: key,
-  id: key,
-  type: 'area' as PinType,
-}));
-
 export const FriendsPage: FC<Props> = ({ target }) => (
-  <IdentityProvider>
-    <FriendsMenu />
-    <ZoomableMap pins={[]} target={target} img={mapImg} />
-  </IdentityProvider>
+  <>
+    <MapWithFriendAddresses target={target} />
+  </>
 );
+
+const MapWithFriendAddresses: FC<Props> = ({ target }) => {
+  const { data } = useShareableIdentity();
+
+  const { friendsPerHouse } = useFriends();
+
+  const pins = useMemo(() => {
+    return Object.entries(friendsPerHouse)
+      .map(([addressString, people]) => {
+        const address = addressString as HouseAddress;
+        const coordinates = getHouseCoordinates(address);
+        if (!coordinates) return undefined;
+
+        const peopleWithPotentialSelf = [...people];
+        if (data && address === String(data?.houseNumber)) {
+          peopleWithPotentialSelf.push({
+            name: `${data.name} (you)`,
+            houseNumber: address,
+          });
+        }
+
+        const resultingPin: Pin = {
+          ...coordinates,
+          id: address,
+          type: 'area',
+          content: (
+            <HousePinContent
+              address={address}
+              people={peopleWithPotentialSelf}
+            />
+          ),
+        };
+        return resultingPin;
+      })
+      .filter((v) => !!v);
+  }, [data, friendsPerHouse]);
+
+  return (
+    <ZoomableMap
+      pins={pins}
+      target={target}
+      img={mapImg}
+      pinFinder={(pin, id) => pin.id === id}
+    >
+      <FriendsMenu />
+    </ZoomableMap>
+  );
+};

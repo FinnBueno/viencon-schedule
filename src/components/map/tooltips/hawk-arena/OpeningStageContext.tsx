@@ -1,7 +1,7 @@
 import type { FC } from 'react';
-import { EVENTS } from '../../../../../data/events';
-import { LOCATIONS } from '../../../../../data/locations';
-import { groupEventsByDay } from '../../../../../utils/event-util';
+import { EVENTS } from '../../../../data/events';
+import { LOCATIONS } from '../../../../data/locations';
+import { groupEventsByDay } from '../../../../utils/event-util';
 import { FromSchedulePinContent } from '../FromSchedulePinContent';
 
 const events = groupEventsByDay(

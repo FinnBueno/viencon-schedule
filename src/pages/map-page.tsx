@@ -37,6 +37,11 @@ export const MapPage: FC<{ target?: string }> = ({ target }) => (
       <Title>Map</Title>
       <Subtitle>Find any events or areas with their timetables.</Subtitle>
     </MapHeader>
-    <ZoomableMap pins={PINS} target={target} img={mapImg} />
+    <ZoomableMap
+      pins={PINS}
+      target={target}
+      img={mapImg}
+      pinFinder={(pin, id) => pin.location?.id === id}
+    />
   </>
 );

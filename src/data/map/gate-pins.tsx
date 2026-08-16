@@ -1,4 +1,4 @@
-import { GateTooltipContent } from '../../components/map/tooltips/content/GateTooltipContent';
+import { GateTooltipContent } from '../../components/map/tooltips/GateTooltipContent';
 import { LOCATIONS } from '../locations';
 import type { PinWithoutId } from './pins';
 

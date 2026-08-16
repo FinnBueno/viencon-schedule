@@ -1,9 +1,10 @@
-import "@emotion/react";
+import '@emotion/react';
 
-declare module "@emotion/react" {
+declare module '@emotion/react' {
   export interface Theme {
     color: {
       eventBlock: string;
+      friendBlock: string;
       eventBlockHighlighted: string;
       negativeBlock: string;
       location: string;

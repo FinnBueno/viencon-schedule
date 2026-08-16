@@ -1,4 +1,4 @@
-import { type FC } from 'react';
+import { type FC, type ReactNode } from 'react';
 
 import styled from '@emotion/styled';
 import type { Pin } from '../../data/map/pins';
@@ -15,6 +15,8 @@ interface ZoomableMapProps {
   pins?: Pin[];
   target?: string;
   img: string;
+  pinFinder: (pin: Pin, id: string) => boolean;
+  children: ReactNode;
 }
 
 const Container = styled.div`
@@ -48,9 +50,12 @@ export const ZoomableMap: FC<ZoomableMapProps> = ({
   pins = [],
   target,
   img,
+  pinFinder,
+  children,
 }) => (
   // setup map provider so children like pins can use hooks to access map data
-  <MapProvider pins={pins} target={target}>
+  <MapProvider pins={pins} target={target} pinFinder={pinFinder}>
+    {children}
     <MapCanvas img={img} />
   </MapProvider>
 );

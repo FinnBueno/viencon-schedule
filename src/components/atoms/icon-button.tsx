@@ -7,4 +7,6 @@ export const IconButton = styled.button`
   background: none;
   cursor: pointer;
   outline: none;
+
+  color: ${(props) => props.theme.color.font.onBackground};
 `;

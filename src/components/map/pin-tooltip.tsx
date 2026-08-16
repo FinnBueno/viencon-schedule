@@ -4,8 +4,8 @@ import styled from '@emotion/styled';
 import { useAnchoredTooltip } from '../../hooks/use-anchored-tooltip';
 import { ALL_LOCATIONS, type Location } from '../../data/locations';
 import { useMapTooltip } from '../../context/MapContext';
-import { TooltipText } from './tooltips/TooltipText';
-import { TooltipContainer } from './tooltips/TooltipContainer';
+import { TooltipText } from '../molecules/TooltipText';
+import { TooltipContainer } from '../molecules/TooltipContainer';
 
 const Tooltip = styled.div`
   position: fixed;

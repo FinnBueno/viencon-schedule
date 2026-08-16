@@ -71,6 +71,7 @@ export const ModalProvider: FC<{ children: ReactNode }> = ({ children }) => {
   };
 
   const closeModal = () => {
+    setContent(null);
     setShow(false);
   };
 

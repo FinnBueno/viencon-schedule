@@ -29,6 +29,7 @@ interface MapContextValue {
   isPinOpen: (id: string) => boolean;
   togglePin: (id: string) => void;
   closePin: () => void;
+  panToPin: (id: string) => void;
 }
 
 const MapContext = createContext<MapContextValue | null>(null);
@@ -37,13 +38,16 @@ export const MapProvider: FC<{
   pins: Pin[];
   target?: string;
   children: ReactNode;
-}> = ({ pins, target, children }) => {
+  pinFinder: (pin: Pin, id: string) => boolean;
+}> = ({ pins, target, children, pinFinder }) => {
   // The pin whose location (or parent location) matches the requested target.
   const targetPin = target
-    ? (pins.find((pin) => pin.location?.id === target) ?? null)
+    ? (pins.find((pin) => pinFinder(pin, target)) ?? null)
     : null;
   const targetPinRef = useRef(targetPin);
   targetPinRef.current = targetPin;
+  const pinsRef = useRef(pins);
+  pinsRef.current = pins;
 
   const {
     containerRef,
@@ -86,6 +90,13 @@ export const MapProvider: FC<{
     [],
   );
   const closePin = useCallback(() => setOpenPinId(null), []);
+  const panToPin = useCallback(
+    (id: string) => {
+      const pin = pinsRef.current.find((p) => p.id === id);
+      if (pin) focusOn({ x: pin.x, y: pin.y, scale: AUTO_FOCUS_SCALE });
+    },
+    [focusOn],
+  );
 
   return (
     <MapContext.Provider
@@ -102,6 +113,7 @@ export const MapProvider: FC<{
         isPinOpen,
         togglePin,
         closePin,
+        panToPin,
       }}
     >
       {children}
@@ -132,17 +144,24 @@ export const useMapSurface = () => {
 // per-pin data, like open state, toggle fn and ref to display tooltip
 // eslint-disable-next-line react-refresh/only-export-components
 export const usePin = (id: string) => {
-  const { isPinOpen, togglePin, registerPinEl } = useMap();
+  const { isPinOpen, togglePin, registerPinEl, panToPin } = useMap();
   const isHighlighted = isPinOpen(id);
   const toggle = useCallback(() => togglePin(id), [id, togglePin]);
   const ref = useCallback(
     (el: HTMLDivElement | null) => registerPinEl(id, el),
     [id, registerPinEl],
   );
+  const panTo = useCallback(() => {
+    if (!isPinOpen(id)) {
+      togglePin(id);
+    }
+    panToPin(id);
+  }, [id, isPinOpen, panToPin, togglePin]);
   return {
     isHighlighted,
     toggle,
     ref,
+    panTo,
   };
 };
 

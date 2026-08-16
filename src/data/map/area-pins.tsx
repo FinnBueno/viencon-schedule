@@ -1,16 +1,16 @@
-import { ArtistAlleyMatsuriPinContent } from '../../components/map/tooltips/content/ArtistAlleyMatsuriContent';
-import { DuckyDomeStagePinContent } from '../../components/map/tooltips/content/DuckyDomeStageContent';
-import { DuckyFallsPinContent } from '../../components/map/tooltips/content/DuckyFallsContent';
-import { DuckyYardSalePinContent } from '../../components/map/tooltips/content/hawk-arena/DuckyYardSaleContent';
-import { GameroomKaraokePinContent } from '../../components/map/tooltips/content/GameroomContent';
-import { MainStageOnePinContent } from '../../components/map/tooltips/content/MainStageOneContent';
-import { MainStageTwoPinContent } from '../../components/map/tooltips/content/MainStageTwoContent';
-import { PoolPinContent } from '../../components/map/tooltips/content/PoolPinContent';
-import { SharkHousePinContent } from '../../components/map/tooltips/content/SharkHouseContent';
+import { ArtistAlleyMatsuriPinContent } from '../../components/map/tooltips/ArtistAlleyMatsuriContent';
+import { DuckyDomeStagePinContent } from '../../components/map/tooltips/DuckyDomeStageContent';
+import { DuckyFallsPinContent } from '../../components/map/tooltips/DuckyFallsContent';
+import { DuckyYardSalePinContent } from '../../components/map/tooltips/hawk-arena/DuckyYardSaleContent';
+import { GameroomKaraokePinContent } from '../../components/map/tooltips/GameroomContent';
+import { MainStageOnePinContent } from '../../components/map/tooltips/MainStageOneContent';
+import { MainStageTwoPinContent } from '../../components/map/tooltips/MainStageTwoContent';
+import { PoolPinContent } from '../../components/map/tooltips/PoolPinContent';
+import { SharkHousePinContent } from '../../components/map/tooltips/SharkHouseContent';
 import { LOCATIONS } from '../locations';
 import type { PinWithoutId } from './pins';
-import { OpeningStagePinContent } from '../../components/map/tooltips/content/hawk-arena/OpeningStageContext';
-import { HawkArenaMiscPinContent } from '../../components/map/tooltips/content/hawk-arena/HawkArenaMiscContent';
+import { OpeningStagePinContent } from '../../components/map/tooltips/hawk-arena/OpeningStageContext';
+import { HawkArenaMiscPinContent } from '../../components/map/tooltips/hawk-arena/HawkArenaMiscContent';
 
 const matsuriArtistAlleyPinTemplate: Omit<PinWithoutId, 'x' | 'y'> = {
   location: LOCATIONS.ArtistAlleyMatsuri,

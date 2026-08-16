@@ -8,7 +8,7 @@ export interface HouseCoordinate {
   y: number;
 }
 
-export const HOUSE_COORDINATES: Record<number, HouseCoordinate> = {
+export const HOUSE_COORDINATES = {
   '101': { x: 0.6197, y: 0.2472 },
   '102': { x: 0.6242, y: 0.2603 },
   '103': { x: 0.6294, y: 0.2738 },
@@ -510,10 +510,16 @@ export const HOUSE_COORDINATES: Record<number, HouseCoordinate> = {
   '842': { x: 0.502, y: 0.5032 },
   '843': { x: 0.507, y: 0.5146 },
   '844': { x: 0.514, y: 0.5237 },
-};
+} as const;
+
+export type HouseAddress = keyof typeof HOUSE_COORDINATES;
 
 export function getHouseCoordinates(
-  houseNumber: number,
+  houseNumber: HouseAddress,
 ): HouseCoordinate | undefined {
   return HOUSE_COORDINATES[houseNumber];
+}
+
+export function isValidHouseAddress(addressNumber: string): boolean {
+  return !!HOUSE_COORDINATES[addressNumber as unknown as HouseAddress];
 }

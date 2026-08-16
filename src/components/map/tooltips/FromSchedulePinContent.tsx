@@ -1,11 +1,11 @@
 import { Fragment, type FC } from 'react';
-import { TooltipContainer } from '../TooltipContainer';
-import { TooltipText } from '../TooltipText';
-import { TooltipHeader } from '../TooltipHeader';
-import { type EventsByDay } from '../../../../utils/event-util';
-import { capitalize } from '../../../../utils/string-util';
-import { timespanToWrittenTime } from '../../../../utils/datetime-util';
-import type { Event } from '../../../../data/events/timestamps';
+import { TooltipContainer } from '../../molecules/TooltipContainer';
+import { TooltipText } from '../../molecules/TooltipText';
+import { TooltipHeader } from '../../molecules/TooltipHeader';
+import { type EventsByDay } from '../../../utils/event-util';
+import { capitalize } from '../../../utils/string-util';
+import { timespanToWrittenTime } from '../../../utils/datetime-util';
+import type { Event } from '../../../data/events/timestamps';
 
 interface Props {
   events: EventsByDay;

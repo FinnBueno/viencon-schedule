@@ -1,9 +1,9 @@
 import type { FC } from 'react';
-import { EVENTS } from '../../../../../data/events';
-import { LOCATIONS } from '../../../../../data/locations';
-import { groupEventsByDay } from '../../../../../utils/event-util';
+import { EVENTS } from '../../../../data/events';
+import { LOCATIONS } from '../../../../data/locations';
+import { groupEventsByDay } from '../../../../utils/event-util';
 import { FromSchedulePinContent } from '../FromSchedulePinContent';
-import { timespanToWrittenTime } from '../../../../../utils/datetime-util';
+import { timespanToWrittenTime } from '../../../../utils/datetime-util';
 
 const events = groupEventsByDay(
   EVENTS.filter((event) => {

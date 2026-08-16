@@ -1,7 +1,7 @@
 import type { FC, ReactNode } from 'react';
-import type { GateId } from '../../../../data/map/gate-pins';
-import { TooltipContainer } from '../TooltipContainer';
-import { TooltipText } from '../TooltipText';
+import type { GateId } from '../../../data/map/gate-pins';
+import { TooltipContainer } from '../../molecules/TooltipContainer';
+import { TooltipText } from '../../molecules/TooltipText';
 
 interface Props {
   gate: GateId;

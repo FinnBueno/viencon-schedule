@@ -1,7 +1,7 @@
 import type { FC } from 'react';
-import { TooltipContainer } from '../TooltipContainer';
-import { TooltipText } from '../TooltipText';
-import { TooltipHeader } from '../TooltipHeader';
+import { TooltipContainer } from '../../molecules/TooltipContainer';
+import { TooltipText } from '../../molecules/TooltipText';
+import { TooltipHeader } from '../../molecules/TooltipHeader';
 
 export const SharkHousePinContent: FC = () => {
   return (

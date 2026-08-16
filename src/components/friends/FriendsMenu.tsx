@@ -93,7 +93,7 @@ export const FriendsMenu: FC = () => {
         <Body collapsed={!isOpen}>
           <Divider />
           <FriendListSizer>
-            <FriendList />
+            <FriendList closeMenu={() => setOpen(false)} />
           </FriendListSizer>
           <FriendControls />
         </Body>

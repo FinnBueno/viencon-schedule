@@ -10,7 +10,7 @@ const Container = styled.div`
   display: flex;
   width: 100%;
 
-  background-color: ${(props) => props.theme.color.eventBlock};
+  background-color: ${(props) => props.theme.color.eventBlockHighlighted};
   box-sizing: border-box;
 
   padding: 8px 8px;
