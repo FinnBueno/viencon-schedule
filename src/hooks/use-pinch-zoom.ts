@@ -44,6 +44,11 @@ export const usePinchZoom = <
   // DRAG_THRESHOLD; until then it stays a tap so the click reaches a pin.
   const dragStart = useRef<{ x: number; y: number } | null>(null);
   const panning = useRef(false);
+  // Previous pointer position of an in-progress pan. We derive the pan delta
+  // from clientX/clientY rather than movementX/movementY because Firefox
+  // reports movement in scaled screen pixels (and inconsistently once the
+  // pointer is captured), which makes single-finger dragging wonky there.
+  const lastPan = useRef<{ x: number; y: number } | null>(null);
   // Notified after every transform change so overlays (e.g. a pin tooltip
   // positioned in screen space) can re-read the pin's on-screen position.
   const listeners = useRef(new Set<() => void>());
@@ -198,11 +203,16 @@ export const usePinchZoom = <
           )
             return;
           panning.current = true;
+          lastPan.current = { x: e.clientX, y: e.clientY };
         }
         if (!container.hasPointerCapture(e.pointerId))
           container.setPointerCapture(e.pointerId);
-        transform.current.tx += e.movementX;
-        transform.current.ty += e.movementY;
+        const last = lastPan.current;
+        if (last) {
+          transform.current.tx += e.clientX - last.x;
+          transform.current.ty += e.clientY - last.y;
+        }
+        lastPan.current = { x: e.clientX, y: e.clientY };
         applyTransform();
       }
     };

@@ -1,6 +1,6 @@
 import { useMemo, type FC } from 'react';
 import { ZoomableMap } from '../components/map/zoomable-map';
-import mapImg from '../assets/viencon-park-map.avif';
+import mapImg from '../assets/viencon-park-map.webp';
 import { FriendsMenu } from '../components/friends/FriendsMenu';
 import {
   getHouseCoordinates,

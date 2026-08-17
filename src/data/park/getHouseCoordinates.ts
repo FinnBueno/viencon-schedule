@@ -1,5 +1,5 @@
 // House coordinates extracted from the Viencon park floorplan
-// (src/assets/viencon-park-map.avif).
+// (src/assets/viencon-park-map.webp).
 // x and y are fractions (0-1) of the map width (2170px) and height (1818px),
 // measured at the centre of each house-number label.
 

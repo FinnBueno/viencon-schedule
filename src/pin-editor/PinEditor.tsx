@@ -2,7 +2,7 @@ import { useCallback, useRef, useState, type FC } from 'react';
 import styled from '@emotion/styled';
 import { usePinchZoom } from '../hooks/use-pinch-zoom';
 import { HOUSE_COORDINATES } from '../data/park/getHouseCoordinates';
-import mapImg from '../assets/viencon-park-map.avif';
+import mapImg from '../assets/viencon-park-map.webp';
 import { EditablePin } from './EditablePin';
 
 // Pin-position editor. Not part of the app UI — open it by adding
