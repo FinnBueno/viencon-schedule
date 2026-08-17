@@ -20,18 +20,27 @@ const Container = styled.div`
   gap: 8px;
 `;
 
-export const FriendList: FC<{ closeMenu: () => void }> = ({ closeMenu }) => {
+const Padding = styled.div`
+  padding-bottom: 4px;
+`;
+
+export const FriendList: FC<{ closeMenu: () => void; target?: string }> = ({
+  closeMenu,
+  target,
+}) => {
   const { friendsPerHouse } = useFriends();
   return (
     <Container>
       <IdentityRow />
       {Object.entries(friendsPerHouse).map(([houseAddress, friends]) => (
         <AddressEntry
+          initiateHighlight={String(target) === houseAddress}
           address={houseAddress as HouseAddress}
           friends={friends}
           closeMenu={closeMenu}
         />
       ))}
+      <Padding />
     </Container>
   );
 };

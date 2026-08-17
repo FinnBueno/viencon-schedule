@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import { type FC } from 'react';
 import { BiCopy } from 'react-icons/bi';
 import { useShareableIdentity } from '../../context/IdentityContext';
+import { toast } from 'react-toastify';
 
 interface Props {
   onComplete?: (shareLink: string) => void;
@@ -64,10 +65,20 @@ const CopyBox = styled.div`
 
 export const ShareHouseNumberModal: FC<Props> = ({ onComplete }) => {
   const shareableIdentity = useShareableIdentity();
-  const addMeData = btoa(JSON.stringify(shareableIdentity.data));
-  const shareLink = `https://finnbueno.github.io/viencon-schedule/?frnd=${addMeData}`;
+  const addMeData = btoa(
+    JSON.stringify({
+      name: shareableIdentity.data?.name,
+      houseNumber: String(shareableIdentity.data?.houseNumber),
+    }),
+  );
+  const shareLink = `${window.location.origin}/viencon-schedule/?frnd=${addMeData}`;
 
-  const onCopyPressed = () => navigator.clipboard.writeText(shareLink);
+  const onCopyPressed = () => {
+    if (shareableIdentity.data) {
+      navigator.clipboard.writeText(shareLink);
+      toast.success('Copied shareable link!');
+    }
+  };
 
   return (
     <Container>

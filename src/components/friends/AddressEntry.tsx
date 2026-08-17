@@ -1,4 +1,4 @@
-import { useRef, type FC, type PointerEvent } from 'react';
+import { useEffect, useRef, useState, type FC, type PointerEvent } from 'react';
 import type { HouseAddress } from '../../data/park/getHouseCoordinates';
 import { useFriends, type FriendEntry } from '../../context/FriendsContext';
 import styled from '@emotion/styled';
@@ -14,11 +14,11 @@ interface Props {
   address: HouseAddress;
   friends: FriendEntry[];
   closeMenu: () => void;
+  initiateHighlight?: boolean;
 }
 
-const Container = styled.div`
+const Container = styled.div<{ isHighlighted?: boolean }>`
   display: flex;
-  width: 100%;
 
   background-color: ${(props) => props.theme.color.friendBlock};
   box-sizing: border-box;
@@ -26,6 +26,21 @@ const Container = styled.div`
   padding: 8px 8px;
   border-radius: 4px;
   gap: 8px;
+
+  transition:
+    outline 1000ms,
+    box-shadow 1000ms;
+
+  ${(props) =>
+    props.isHighlighted
+      ? `
+    outline: 3px solid #ffd400;
+    box-shadow: 0 0 0 3px #ffd400, 0 0 16px 4px rgba(255, 212, 0, 0.8);
+  `
+      : ''}
+
+  margin: 0 8px;
+  box-sizing: border-box;
 `;
 
 const HouseNumberLabel = styled.h3`
@@ -46,10 +61,35 @@ const ColumnPanel = styled.div`
   flex: 1;
 `;
 
-export const AddressEntry: FC<Props> = ({ address, friends, closeMenu }) => {
+export const AddressEntry: FC<Props> = ({
+  address,
+  friends,
+  closeMenu,
+  initiateHighlight,
+}) => {
   const { openModal, closeModal } = useModal();
   const { removeFriend, removeHouse } = useFriends();
   const { panTo } = usePin(address);
+  const [isHighlighted, setHighlighted] = useState(initiateHighlight);
+  const highlightDisableRef = useRef<ReturnType<typeof setTimeout>>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!initiateHighlight) return;
+
+    containerRef.current?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+    });
+
+    if (highlightDisableRef.current) clearTimeout(highlightDisableRef.current);
+
+    highlightDisableRef.current = setTimeout(() => setHighlighted(false), 2000);
+    return () => {
+      if (highlightDisableRef.current)
+        clearTimeout(highlightDisableRef.current);
+    };
+  }, [initiateHighlight]);
 
   const goToHouse = () => {
     panTo();
@@ -62,7 +102,7 @@ export const AddressEntry: FC<Props> = ({ address, friends, closeMenu }) => {
   };
 
   return (
-    <Container>
+    <Container ref={containerRef} isHighlighted={isHighlighted}>
       <ColumnPanel>
         <HouseNumberLabel>
           House Number: <b>{address}</b>

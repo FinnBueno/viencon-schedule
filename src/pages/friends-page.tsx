@@ -26,7 +26,9 @@ const MapWithFriendAddresses: FC<Props> = ({ target }) => {
 
   const { friendsPerHouse } = useFriends();
 
-  const pins = useMemo(() => {
+  // creates a pin for each house
+  // also tries to insert the user's own name into the house they have configured
+  const housePins = useMemo(() => {
     return Object.entries(friendsPerHouse)
       .map(([addressString, people]) => {
         const address = addressString as HouseAddress;
@@ -59,12 +61,12 @@ const MapWithFriendAddresses: FC<Props> = ({ target }) => {
 
   return (
     <ZoomableMap
-      pins={pins}
+      pins={housePins}
       target={target}
       img={mapImg}
       pinFinder={(pin, id) => pin.id === id}
     >
-      <FriendsMenu />
+      <FriendsMenu target={target} />
     </ZoomableMap>
   );
 };

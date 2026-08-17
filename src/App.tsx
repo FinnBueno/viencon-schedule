@@ -51,9 +51,6 @@ function App() {
 function AppWithTheme() {
   const { theme } = useVienconTheme();
 
-  const queryParams = new URLSearchParams(window.location.search);
-  const addFriendParam = queryParams.get('frnd');
-
   return (
     <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
       <SearchProvider>
@@ -62,7 +59,7 @@ function AppWithTheme() {
             <FriendsProvider>
               <ModalProvider>
                 <Global styles={(theme) => getGlobalStyle(theme)} />
-                <Router addFriendData={addFriendParam ?? undefined} />
+                <Router />
                 <AppBar />
                 <ToastContainer
                   position="bottom-center"
@@ -85,10 +82,14 @@ const clearQueryParams = () => {
   );
 };
 
-const Router: FC<{ addFriendData?: string }> = ({ addFriendData }) => {
+const Router: FC = () => {
   const { route, routeData, navigateTo } = useRouting();
   const { addFriend } = useFriends();
 
+  const queryParams = new URLSearchParams(window.location.search);
+  const addFriendData = queryParams.get('frnd');
+
+  // todo: make sure that removing or navigating to another page doesn't bring you back to the map
   useEffect(() => {
     if (!addFriendData) return;
 

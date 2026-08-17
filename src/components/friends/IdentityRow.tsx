@@ -8,7 +8,6 @@ import { SpecifyIdentityModal } from './SpecifyIdentityModal';
 
 const Container = styled.div`
   display: flex;
-  width: 100%;
 
   background-color: ${(props) => props.theme.color.eventBlockHighlighted};
   box-sizing: border-box;
@@ -16,6 +15,9 @@ const Container = styled.div`
   padding: 8px 8px;
   border-radius: 4px;
   gap: 4px;
+
+  margin: 0 8px;
+  box-sizing: border-box;
 `;
 
 const LabelGroup = styled.div`

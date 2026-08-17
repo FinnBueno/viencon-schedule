@@ -55,7 +55,6 @@ export const FriendsProvider: FC<{ children: ReactNode }> = ({ children }) => {
   }, [friendsList]);
 
   const dangerouslySetFriendList = useCallback((friendList: FriendList) => {
-    console.log('danger');
     setFriendsList(friendList);
     localStorage.setItem(CACHE_ID, JSON.stringify(friendList));
   }, []);
@@ -66,7 +65,7 @@ export const FriendsProvider: FC<{ children: ReactNode }> = ({ children }) => {
       if (
         state.find(
           (p) =>
-            p.houseNumber === friend.houseNumber &&
+            p.houseNumber === String(friend.houseNumber) &&
             p.name.toLowerCase().trim() === friend.name.toLowerCase().trim(),
         )
       )

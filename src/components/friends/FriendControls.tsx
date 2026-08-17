@@ -12,6 +12,9 @@ import { useFriends } from '../../context/FriendsContext';
 const Container = styled.div`
   display: flex;
   gap: 8px;
+
+  margin: 0 8px;
+  box-sizing: border-box;
 `;
 
 const VisualButton = styled.button`
