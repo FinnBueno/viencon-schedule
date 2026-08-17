@@ -24,14 +24,32 @@ const Padding = styled.div`
   padding-bottom: 4px;
 `;
 
+const EmptyState = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 40px;
+  opacity: 0.7;
+`;
+
 export const FriendList: FC<{ closeMenu: () => void; target?: string }> = ({
   closeMenu,
   target,
 }) => {
   const { friendsPerHouse } = useFriends();
+  const noFriends = Object.keys(friendsPerHouse).length === 0;
   return (
     <Container>
       <IdentityRow />
+      {noFriends && (
+        <EmptyState>
+          Press "Edit Manually" to enter your friend list, or click the "Share
+          house number" link somebody shared with you.
+        </EmptyState>
+      )}
       {Object.entries(friendsPerHouse).map(([houseAddress, friends]) => (
         <AddressEntry
           initiateHighlight={String(target) === houseAddress}
