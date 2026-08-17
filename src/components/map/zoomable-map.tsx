@@ -16,7 +16,7 @@ interface ZoomableMapProps {
   target?: string;
   img: string;
   pinFinder: (pin: Pin, id: string) => boolean;
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 const Container = styled.div`
