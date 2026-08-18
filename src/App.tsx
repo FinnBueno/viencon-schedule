@@ -14,6 +14,7 @@ import {
   type FriendEntry,
 } from './context/FriendsContext';
 import { AppBar } from './components/organisms/app-bar';
+import { InAppBrowserWarning } from './components/organisms/in-app-browser-warning';
 import { RouteProvider, useRouting } from './context/RouteContext';
 import { useEffect, useRef, type FC } from 'react';
 import { SchedulePage } from './pages/schedule-page';
@@ -61,6 +62,7 @@ function AppWithTheme() {
                 <Global styles={(theme) => getGlobalStyle(theme)} />
                 <Router />
                 <AppBar />
+                <InAppBrowserWarning />
                 <ToastContainer
                   position="bottom-center"
                   theme={theme === 'dark' ? 'dark' : 'light'}

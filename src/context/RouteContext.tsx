@@ -21,7 +21,7 @@ const RouteContext = createContext<RouteData>({
 
 export const RouteProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [[route, routeData], setRoute] = useState<[Route, string | undefined]>([
-    'schedule',
+    'friends',
     undefined,
   ]);
 
