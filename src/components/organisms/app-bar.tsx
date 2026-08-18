@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { useEffect, useRef, type FC } from 'react';
+import { useEffect, useRef, useState, type FC } from 'react';
 import { GrMapLocation, GrSchedule } from 'react-icons/gr';
 import { useRouting } from '../../context/RouteContext';
 import { useVienconTheme } from '../../hooks/use-viencon-theme';
@@ -45,7 +45,8 @@ const AppBarIcon = styled.button`
   }
 `;
 
-const ActiveBackground = styled.div`
+const ActiveBackground = styled.div<{ hide: boolean }>`
+  display: ${(props) => (props.hide ? 'none' : 'initial')};
   position: absolute;
   top: 4px;
   left: 0;
@@ -54,7 +55,6 @@ const ActiveBackground = styled.div`
   height: 48px;
   width: 48px;
   transition: transform 150ms ease-in-out;
-  transform: translateX(calc(50vw - 24px));
 
   @media (min-width: 769px) {
     top: 0;
@@ -81,6 +81,8 @@ export const AppBar: FC = () => {
   const friendsBtnRef = useRef<HTMLButtonElement>(null);
   const activeBackgroundRef = useRef<HTMLDivElement>(null);
 
+  const [hasLoaded, setHasLoaded] = useState(false);
+
   useEffect(() => {
     if (
       !scheduleBtnRef.current ||
@@ -106,13 +108,14 @@ export const AppBar: FC = () => {
     }
 
     activeBackgroundRef.current.style.transform = `translateX(${activeButton.offsetLeft}px)`;
-  }, [route]);
+    if (!hasLoaded) setHasLoaded(true);
+  }, [hasLoaded, route]);
 
   return (
     <>
       <AppBarHeightPadding />
       <Container>
-        <ActiveBackground ref={activeBackgroundRef} />
+        <ActiveBackground ref={activeBackgroundRef} hide={!hasLoaded} />
         <AppBarIcon ref={scheduleBtnRef} onClick={() => navigateTo('schedule')}>
           <GrSchedule
             size={30}
