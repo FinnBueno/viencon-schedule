@@ -38,6 +38,10 @@ const getGlobalStyle = (theme: Theme) => css`
   * {
     font-family: Arial, Helvetica, sans-serif;
   }
+
+  #root {
+    height: 100dvh;
+  }
 `;
 
 function App() {
