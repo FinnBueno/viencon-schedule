@@ -10,8 +10,8 @@ export const detectInAppBrowser = (): InAppBrowser | undefined => {
 export const isAndroid = () => /Android/i.test(navigator.userAgent);
 
 // automatically go to your preferred browser
-export const getChromeIntentLink = () => {
+export const getExternalBrowserIntentLink = () => {
   const { host, pathname, search, href } = window.location;
   const fallbackUrl = encodeURIComponent(href);
-  return `intent://${host}${pathname}${search}#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=${fallbackUrl};end`;
+  return `intent://${host}${pathname}${search}#Intent;scheme=https;action=android.intent.action.VIEW;category=android.intent.category.BROWSABLE;S.browser_fallback_url=${fallbackUrl};end`;
 };

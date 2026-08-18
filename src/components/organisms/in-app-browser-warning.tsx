@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { IconButton } from '../atoms/icon-button';
 import {
   detectInAppBrowser,
-  getChromeIntentLink,
+  getExternalBrowserIntentLink,
   isAndroid,
 } from '../../utils/browser-util';
 
@@ -92,14 +92,14 @@ const VisualButton = styled.button`
   text-decoration: none;
 `;
 
-const OpenInChromeButton = VisualButton.withComponent('a');
+const OpenInBrowserButton = VisualButton.withComponent('a');
 
 export const InAppBrowserWarning: FC = () => {
   const [isDismissed, setDismissed] = useState(
     () => !!localStorage.getItem(DISMISSAL_CACHE_ID),
   );
   const inAppBrowser = useMemo(detectInAppBrowser, []);
-  const showChromeButton = useMemo(isAndroid, []);
+  const canOpenExternally = useMemo(isAndroid, []);
 
   if (!inAppBrowser || isDismissed) return null;
 
@@ -127,19 +127,19 @@ export const InAppBrowserWarning: FC = () => {
         <Text>
           Your friend list and house number are only saved in this browser. Open
           this page in your own browser first, or you'll have to enter
-          everything again later.
+          everything again there later.
         </Text>
-        {!showChromeButton && (
+        {!canOpenExternally && (
           <Text>
             Tap the ••• button at the top right, then "Open in external
             browser".
           </Text>
         )}
         <Buttons>
-          {showChromeButton && (
-            <OpenInChromeButton href={getChromeIntentLink()}>
-              Open in Chrome
-            </OpenInChromeButton>
+          {canOpenExternally && (
+            <OpenInBrowserButton href={getExternalBrowserIntentLink()}>
+              Open in my browser
+            </OpenInBrowserButton>
           )}
           <VisualButton onClick={copyLink}>Copy link</VisualButton>
         </Buttons>
