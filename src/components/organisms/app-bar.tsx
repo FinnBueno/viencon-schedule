@@ -8,7 +8,7 @@ import { FaUserGroup } from 'react-icons/fa6';
 const appBarHeight = 52;
 
 const Container = styled.div`
-  position: absolute;
+  position: fixed;
   bottom: 0;
   width: 100%;
   height: ${appBarHeight + 4}px;
@@ -21,6 +21,7 @@ const Container = styled.div`
   background-color: ${(props) => props.theme.color.backgroundHighlight};
 
   @media (min-width: 769px) {
+    position: absolute;
     top: 0;
     width: fit-content;
     height: ${appBarHeight - 4}px;
@@ -43,6 +44,8 @@ const AppBarIcon = styled.button`
   & > * {
     transition: color 150ms;
   }
+
+  cursor: pointer;
 `;
 
 const ActiveBackground = styled.div<{ hide: boolean }>`
