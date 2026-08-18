@@ -22,23 +22,25 @@ export const FriendsPage: FC<Props> = ({ target }) => (
 );
 
 const MapWithFriendAddresses: FC<Props> = ({ target }) => {
-  const { data } = useShareableIdentity();
+  const { data: selfData } = useShareableIdentity();
 
   const { friendsPerHouse } = useFriends();
 
   // creates a pin for each house
   // also tries to insert the user's own name into the house they have configured
   const housePins = useMemo(() => {
-    return Object.entries(friendsPerHouse)
+    let selfWasRegisteredAlongTheWay = false;
+    const resultingPins = Object.entries(friendsPerHouse)
       .map(([addressString, people]) => {
         const address = addressString as HouseAddress;
         const coordinates = getHouseCoordinates(address);
         if (!coordinates) return undefined;
 
         const peopleWithPotentialSelf = [...people];
-        if (data && address === String(data?.houseNumber)) {
+        if (selfData && address === String(selfData?.houseNumber)) {
+          selfWasRegisteredAlongTheWay = true;
           peopleWithPotentialSelf.push({
-            name: `${data.name} (you)`,
+            name: `${selfData.name} (you)`,
             houseNumber: address,
           });
         }
@@ -57,7 +59,30 @@ const MapWithFriendAddresses: FC<Props> = ({ target }) => {
         return resultingPin;
       })
       .filter((v) => !!v);
-  }, [data, friendsPerHouse]);
+    if (!selfWasRegisteredAlongTheWay) {
+      const address = String(selfData!.houseNumber) as HouseAddress;
+      const coordinates = getHouseCoordinates(address);
+      if (!coordinates) return resultingPins;
+      const selfPin: Pin = {
+        ...coordinates,
+        id: address,
+        type: 'area',
+        content: (
+          <HousePinContent
+            address={address}
+            people={[
+              {
+                name: selfData!.name,
+                houseNumber: address,
+              },
+            ]}
+          />
+        ),
+      };
+      return [...resultingPins, selfPin];
+    }
+    return resultingPins;
+  }, [selfData, friendsPerHouse]);
 
   return (
     <ZoomableMap
