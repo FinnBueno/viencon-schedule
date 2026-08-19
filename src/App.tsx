@@ -58,7 +58,7 @@ function AppWithTheme() {
   return (
     <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
       <Global styles={(theme) => getGlobalStyle(theme)} />
-      <Sentry.ErrorBoundary fallback={<ErrorScreen />}>
+      <Sentry.ErrorBoundary fallback={props => <ErrorScreen {...props} />}>
         <SearchProvider>
           <RouteProvider>
             <IdentityProvider>

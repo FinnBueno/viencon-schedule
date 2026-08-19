@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
-import type { FC } from 'react';
 import { IconLink } from './components/atoms/icon-link';
 import { FaInstagram } from 'react-icons/fa';
+import type { FallbackRender } from '@sentry/react';
 
 const Container = styled.div`
   position: absolute;
@@ -55,23 +55,47 @@ const Link = styled.a`
   display: inline;
 `;
 
-export const ErrorScreen: FC = () => (
-  <Container>
-    <Content>
-      <Heading>Oops!</Heading>
-      <Text>
-        It seems something broke. Try refreshing with the button below.
-      </Text>
-      <RefreshButton>Refresh</RefreshButton>
-      <Text>
-        The error has been reported to the creator. If you want, you can reach
-        out to them <Link href="https://instagram.com/finxy_cos">here</Link>.
-      </Text>
-      <SocialIcons>
-        <IconLink href="https://instagram.com/finxy_cos" target="_blank">
-          <FaInstagram size={32} />
-        </IconLink>
-      </SocialIcons>
-    </Content>
-  </Container>
-);
+const EventId = styled.code`
+  display: block;
+  margin: 0 0 8px 0;
+  padding: 6px 8px;
+  border-radius: 4px;
+  background-color: ${(props) => props.theme.color.backgroundHighlight};
+  font-family: monospace;
+  font-size: 0.8rem;
+  overflow-wrap: anywhere;
+  user-select: all;
+`;
+
+export const ErrorScreen: FallbackRender = ({ eventId, resetError }) => {
+  const copyEventId = () => {
+    try {
+      navigator.clipboard.writeText(eventId);
+    } catch {
+      /* empty */
+    }
+  };
+
+  return (
+    <Container>
+      <Content>
+        <Heading>Oops!</Heading>
+        <Text>
+          It seems something broke. Try refreshing with the button below.
+        </Text>
+        <RefreshButton onClick={resetError}>Refresh</RefreshButton>
+        <Text>
+          The error has been reported to the creator. If you want, you can reach
+          out to them <Link href="https://instagram.com/finxy_cos">here</Link>.
+        </Text>
+        <Text>If you do reach out, please send them this ID:</Text>
+        <EventId onClick={copyEventId}>{eventId}</EventId>
+        <SocialIcons>
+          <IconLink href="https://instagram.com/finxy_cos" target="_blank">
+            <FaInstagram size={32} />
+          </IconLink>
+        </SocialIcons>
+      </Content>
+    </Container>
+  );
+};
