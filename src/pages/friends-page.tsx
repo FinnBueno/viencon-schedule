@@ -53,7 +53,7 @@ const MapWithFriendAddresses: FC<Props> = ({ target }) => {
 const createHousePins = (
   friendsPerHouse: FriendsPerHouse,
   selfData?: ShareableIdentity,
-) => {
+): Pin[] => {
   // this is messy, I'm sorry
   let selfWasRegisteredAlongTheWay = false;
   const resultingPins = Object.entries(friendsPerHouse)
@@ -85,23 +85,25 @@ const createHousePins = (
   if (!selfWasRegisteredAlongTheWay && selfData) {
     const address = String(selfData.houseNumber) as HouseAddress;
     const coordinates = getHouseCoordinates(address);
-    if (!coordinates) return resultingPins;
-    const selfPin: Pin = {
-      ...coordinates,
-      id: address,
-      type: 'area',
-      content: (
-        <HousePinContent
-          address={address}
-          people={[
-            {
-              name: selfData.name,
-              houseNumber: address,
-            },
-          ]}
-        />
-      ),
-    };
-    return [...resultingPins, selfPin];
+    if (coordinates) {
+      const selfPin: Pin = {
+        ...coordinates,
+        id: address,
+        type: 'area',
+        content: (
+          <HousePinContent
+            address={address}
+            people={[
+              {
+                name: selfData.name,
+                houseNumber: address,
+              },
+            ]}
+          />
+        ),
+      };
+      resultingPins.push(selfPin);
+    }
   }
+  return resultingPins;
 };

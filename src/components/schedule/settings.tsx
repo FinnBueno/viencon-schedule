@@ -41,7 +41,7 @@ const InfoModalContent: FC<{ theme: Theme }> = ({ theme }) => (
       It is maintained as a small fan project in an attempt to make it easier to
       plan your weekend. It's updated by hand and may not be 100% accurate. The
       last update was on <b>August 19th.</b> The current version is{' '}
-      <Version>2026-v1.0.5</Version>.
+      <Version>2026-v1.0.6</Version>.
     </p>
     <p>
       If you've found a mistake and want to let me know, you can message me on{' '}
