@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import { PinEditor } from './pin-editor/PinEditor.tsx';
 import * as Sentry from '@sentry/react';
+import { APP_OPENED_METRIC } from './sentry/metrics.ts';
 
 const isLocalhost = ['localhost', '127.0.0.1', '[::1]'].includes(
   window.location.hostname,
@@ -25,6 +26,8 @@ Sentry.init({
   enableLogs: !isLocalhost,
   enabled: !isLocalhost,
 });
+
+Sentry.metrics.count(APP_OPENED_METRIC, 1);
 
 createRoot(document.getElementById('root')!, {
   // Error reporting: captures all errors
