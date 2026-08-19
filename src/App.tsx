@@ -58,13 +58,12 @@ function AppWithTheme() {
   return (
     <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
       <Global styles={(theme) => getGlobalStyle(theme)} />
-      <Sentry.ErrorBoundary fallback={props => <ErrorScreen {...props} />}>
+      <Sentry.ErrorBoundary fallback={(props) => <ErrorScreen {...props} />}>
         <SearchProvider>
           <RouteProvider>
             <IdentityProvider>
               <FriendsProvider>
                 <ModalProvider>
-                  <ErrorComp />
                   <Router />
                   <AppBar />
                   <InAppBrowserWarning />
@@ -88,10 +87,6 @@ const clearQueryParams = () => {
     '',
     `${window.location.pathname}${window.location.hash}`,
   );
-};
-
-const ErrorComp = () => {
-  throw new Error('Test error');
 };
 
 const Router: FC = () => {
