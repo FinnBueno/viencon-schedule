@@ -8,6 +8,7 @@ import {
   type ReactNode,
 } from 'react';
 import type { HouseAddress } from '../data/park/getHouseCoordinates';
+import * as Sentry from '@sentry/react';
 
 export interface FriendEntry {
   name: string;
@@ -125,7 +126,10 @@ function getCachedValue(): FriendList {
 
   try {
     return JSON.parse(cachedValue) as FriendList;
-  } catch {
+  } catch (error) {
+    Sentry.logger.error('Could not parse friendlist from useFriends hook', {
+      error,
+    });
     localStorage.removeItem(CACHE_ID);
     return [];
   }

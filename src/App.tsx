@@ -22,6 +22,9 @@ import { MapPage } from './pages/map-page';
 import { FriendsPage } from './pages/friends-page';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import * as Sentry from '@sentry/react';
+import { SHARED_LINK_OPENED_METRIC } from './sentry/metrics';
+import { ErrorScreen } from './ErrorScreen';
 
 const getGlobalStyle = (theme: Theme) => css`
   html,
@@ -54,24 +57,27 @@ function AppWithTheme() {
 
   return (
     <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
-      <SearchProvider>
-        <RouteProvider>
-          <IdentityProvider>
-            <FriendsProvider>
-              <ModalProvider>
-                <Global styles={(theme) => getGlobalStyle(theme)} />
-                <Router />
-                <AppBar />
-                <InAppBrowserWarning />
-                <ToastContainer
-                  position="bottom-center"
-                  theme={theme === 'dark' ? 'dark' : 'light'}
-                />
-              </ModalProvider>
-            </FriendsProvider>
-          </IdentityProvider>
-        </RouteProvider>
-      </SearchProvider>
+      <Global styles={(theme) => getGlobalStyle(theme)} />
+      <Sentry.ErrorBoundary fallback={<ErrorScreen />}>
+        <SearchProvider>
+          <RouteProvider>
+            <IdentityProvider>
+              <FriendsProvider>
+                <ModalProvider>
+                  <ErrorComp />
+                  <Router />
+                  <AppBar />
+                  <InAppBrowserWarning />
+                  <ToastContainer
+                    position="bottom-center"
+                    theme={theme === 'dark' ? 'dark' : 'light'}
+                  />
+                </ModalProvider>
+              </FriendsProvider>
+            </IdentityProvider>
+          </RouteProvider>
+        </SearchProvider>
+      </Sentry.ErrorBoundary>
     </ThemeProvider>
   );
 }
@@ -84,6 +90,10 @@ const clearQueryParams = () => {
   );
 };
 
+const ErrorComp = () => {
+  throw new Error('Test error');
+};
+
 const Router: FC = () => {
   const { route, routeData, navigateTo } = useRouting();
   const { addFriend } = useFriends();
@@ -91,21 +101,24 @@ const Router: FC = () => {
   const queryParams = new URLSearchParams(window.location.search);
   const addFriendData = queryParams.get('frnd');
 
-  // todo: make sure that removing or navigating to another page doesn't bring you back to the map
   useEffect(() => {
     if (!addFriendData) return;
 
     let friendData: FriendEntry;
     try {
       friendData = JSON.parse(atob(addFriendData)) as FriendEntry;
-    } catch {
+    } catch (error) {
       toast.error(
         'Something is wrong with that friend code. Ask them to send a new one',
       );
+      Sentry.logger.error('Something went wrong parsing a friend code', {
+        error,
+      });
       clearQueryParams();
       return;
     }
 
+    Sentry.metrics.count(SHARED_LINK_OPENED_METRIC, 1);
     addFriend(friendData);
     toast.success(
       `Added ${friendData.name} to house ${friendData.houseNumber}`,

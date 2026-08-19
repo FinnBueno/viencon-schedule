@@ -3,6 +3,8 @@ import { type FC } from 'react';
 import { BiCopy } from 'react-icons/bi';
 import { useShareableIdentity } from '../../context/IdentityContext';
 import { toast } from 'react-toastify';
+import { SHARED_LINK_CREATED_METRIC } from '../../sentry/metrics';
+import * as Sentry from '@sentry/react';
 
 interface Props {
   onComplete?: (shareLink: string) => void;
@@ -75,6 +77,7 @@ export const ShareHouseNumberModal: FC<Props> = ({ onComplete }) => {
 
   const onCopyPressed = () => {
     if (shareableIdentity.data) {
+      Sentry.metrics.count(SHARED_LINK_CREATED_METRIC, 1);
       navigator.clipboard.writeText(shareLink);
       toast.success('Copied shareable link!');
     }

@@ -5,6 +5,7 @@ import {
   type FC,
   type ReactNode,
 } from 'react';
+import * as Sentry from '@sentry/react';
 
 export interface ShareableIdentity {
   name: string;
@@ -73,8 +74,12 @@ function getCachedValue(): ShareableIdentity | undefined {
 
   try {
     return JSON.parse(cachedValue) as ShareableIdentity;
-  } catch {
+  } catch (error) {
     localStorage.removeItem(CACHE_ID);
+    Sentry.logger.error(
+      'Could not parse shareableIdentity from useShareableIdentity hook',
+      { error },
+    );
     return undefined;
   }
 }

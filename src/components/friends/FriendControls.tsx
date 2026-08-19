@@ -8,6 +8,8 @@ import { ConfirmDeletionModal } from './ConfirmDeletionModal';
 import { ManualFriendListEditorModal } from './ManualFriendListEditorModal';
 import { ShareHouseNumberModal } from './ShareHouseNumberModal';
 import { useFriends } from '../../context/FriendsContext';
+import * as Sentry from '@sentry/react';
+import { SHARED_LINK_CREATED_METRIC } from '../../sentry/metrics';
 
 const Container = styled.div`
   display: flex;
@@ -66,8 +68,13 @@ export const FriendControls: FC = () => {
     if (navigator.share) {
       try {
         await navigator.share({ text: shareLink });
+        Sentry.metrics.count(SHARED_LINK_CREATED_METRIC, 1);
       } catch (error) {
         console.error('Error sharing:', error);
+        Sentry.logger.error(
+          'Something went wrong opening the share navigator',
+          { error },
+        );
       }
     }
   };

@@ -18,10 +18,17 @@ Sentry.init({
     httpBodies: [],
     urlQueryParams: { deny: ['frnd'] },
   },
+  debug: isLocalhost,
+  release: isLocalhost ? 'local' : '2026-v1.0.5',
+  environment: isLocalhost ? 'local' : 'production',
   // Enable logs to be sent to Sentry
-  enableLogs: true,
+  enableLogs: !isLocalhost,
+  enabled: !isLocalhost,
 });
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>{showPinEditor ? <PinEditor /> : <App />}</StrictMode>,
-);
+createRoot(document.getElementById('root')!, {
+  // Error reporting: captures all errors
+  onUncaughtError: Sentry.reactErrorHandler(),
+  onCaughtError: Sentry.reactErrorHandler(),
+  onRecoverableError: Sentry.reactErrorHandler(),
+}).render(<StrictMode>{showPinEditor ? <PinEditor /> : <App />}</StrictMode>);

@@ -8,6 +8,7 @@ import {
   getExternalBrowserIntentLink,
   isAndroid,
 } from '../../utils/browser-util';
+import * as Sentry from '@sentry/react';
 
 const DISMISSAL_CACHE_ID = 'viencon-2026-in-app-browser-warning-dismissed';
 
@@ -112,8 +113,14 @@ export const InAppBrowserWarning: FC = () => {
     try {
       await navigator.clipboard.writeText(window.location.href);
       toast.success('Link copied! Paste it in your own browser');
-    } catch {
-      toast.error("Couldn't copy the link, sorry!");
+    } catch (error) {
+      toast.error(
+        "Couldn't copy the link, sorry! Use the 3 dots in the top-right corner.",
+      );
+      Sentry.logger.error(
+        'Something went wrong copying the "out-of-instagram" link',
+        { error },
+      );
     }
   };
 
