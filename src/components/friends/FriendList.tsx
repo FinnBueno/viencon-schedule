@@ -52,6 +52,7 @@ export const FriendList: FC<{ closeMenu: () => void; target?: string }> = ({
       )}
       {Object.entries(friendsPerHouse).map(([houseAddress, friends]) => (
         <AddressEntry
+          key={houseAddress}
           initiateHighlight={String(target) === houseAddress}
           address={houseAddress as HouseAddress}
           friends={friends}

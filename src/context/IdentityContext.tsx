@@ -6,7 +6,7 @@ import {
   type ReactNode,
 } from 'react';
 
-interface ShareableIdentity {
+export interface ShareableIdentity {
   name: string;
   houseNumber: number;
 }
