@@ -26,17 +26,22 @@ const SocialIcons = styled.div`
   width: 92px;
 `;
 
+const Version = styled.span`
+  font-family: monospace;
+`;
+
 const InfoModalContent: FC<{ theme: Theme }> = ({ theme }) => (
   <>
-    <h2>Thanks for using this schedule!</h2>
+    <h2>Thanks for using this (web)app!</h2>
     <p>
-      This schedule is not an official one and is in no way, shape or form
+      This project is not an official one and is in no way, shape or form
       affiliated with the Viencon organisation.
     </p>
     <p>
       It is maintained as a small fan project in an attempt to make it easier to
       plan your weekend. It's updated by hand and may not be 100% accurate. The
-      last update was on <b>August 19th.</b>
+      last update was on <b>August 19th.</b> The current version is{' '}
+      <Version>2026-v1.0.5</Version>.
     </p>
     <p>
       If you've found a mistake and want to let me know, you can message me on{' '}
