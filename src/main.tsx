@@ -4,6 +4,7 @@ import App from './App.tsx';
 import { PinEditor } from './pin-editor/PinEditor.tsx';
 import * as Sentry from '@sentry/react';
 import { APP_OPENED_METRIC } from './sentry/metrics.ts';
+import { APP_VERSION } from './version.ts';
 
 const isLocalhost = ['localhost', '127.0.0.1', '[::1]'].includes(
   window.location.hostname,
@@ -20,7 +21,7 @@ Sentry.init({
     urlQueryParams: { deny: ['frnd'] },
   },
   debug: isLocalhost,
-  release: isLocalhost ? 'local' : '2026-v1.0.5',
+  release: isLocalhost ? 'local' : APP_VERSION,
   environment: isLocalhost ? 'local' : 'production',
   // Enable logs to be sent to Sentry
   enableLogs: !isLocalhost,
