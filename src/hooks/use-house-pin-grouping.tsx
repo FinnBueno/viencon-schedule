@@ -12,6 +12,21 @@ type PinData = Omit<Pin, 'content'> & {
   address: HouseAddress;
 };
 
+const generatePin = (
+  address: HouseAddress,
+  people: FriendEntry[],
+): PinData | undefined => {
+  const coordinates = getHouseCoordinates(address);
+  if (!coordinates) return undefined;
+  return {
+    id: address,
+    ...coordinates,
+    type: 'area',
+    address,
+    people,
+  };
+};
+
 export const useHousePinGrouping = (
   friendsPerHouse: FriendsPerHouse,
   selfData?: ShareableIdentity,
@@ -19,16 +34,7 @@ export const useHousePinGrouping = (
   // convert friendsPerHouse to a list of pins (effective the same data structure)
   const resultingPins = Object.entries(friendsPerHouse)
     .map(([addressString, people]) => {
-      const coordinates = getHouseCoordinates(addressString as HouseAddress);
-      if (!coordinates) return undefined;
-      const pin: PinData = {
-        id: addressString,
-        address: addressString as HouseAddress,
-        ...coordinates,
-        type: 'area',
-        people,
-      };
-      return pin;
+      return generatePin(addressString as HouseAddress, people);
     })
     // remove any houses that don't have anybody registered in them
     .filter((i) => !!i);
@@ -39,9 +45,18 @@ export const useHousePinGrouping = (
   // if there is one, add the user to the people list
   if (selfHouse) {
     selfHouse.people.push({
-      name: selfData.name,
+      name: `${selfData.name} (you)`,
       houseNumber: String(selfData.houseNumber) as HouseAddress,
     });
+  } else if (selfData) {
+    const addressString = String(selfData.houseNumber) as HouseAddress;
+    const newPin = generatePin(addressString, [
+      {
+        name: `${selfData.name} (you)`,
+        houseNumber: addressString,
+      },
+    ]);
+    if (newPin) resultingPins.push(newPin);
   }
   return resultingPins.map((pinData) => {
     const { people, address, ...rest } = pinData;

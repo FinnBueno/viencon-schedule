@@ -1,11 +1,11 @@
 import { sentryVitePlugin } from '@sentry/vite-plugin';
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig, loadEnv, type UserConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 import mkcert from 'vite-plugin-mkcert';
 
 // https://vite.dev/config/
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ mode }): UserConfig => {
   // Reads VITE_APP_VERSION from the real environment as well as .env files,
   // so CI can inject the release tag without a `process` global here.
   const env = loadEnv(mode, '.', 'VITE_');
@@ -48,14 +48,18 @@ export default defineConfig(({ mode }) => {
               purpose: 'maskable',
             },
           ],
+          handle_links: 'preferred',
+          launch_handler: {
+            client_mode: 'navigate-existing',
+          },
         },
       }),
       sentryVitePlugin({
         org: 'finn-7k',
         project: 'javascript-react',
-        // Must match the release reported in main.tsx, or sourcemaps
-        // get uploaded under a different release than the errors.
+        // this release name is used to tag sourcemaps
         release: { name: env.VITE_APP_VERSION },
+        telemetry: false,
       }),
     ],
 
